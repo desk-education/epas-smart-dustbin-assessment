@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Testing Electronic Components - Interactive Learning Platform</title>
+	<link rel="stylesheet" href="style.css">
+<!--
+    <style>
+        
+    </style>
+-->
+</head>
+<body class="font-medium" data-theme="light">
+
+    <!-- HEADER & NAVIGATION -->
+    <header>
+        <div class="header-top">
+            <div class="app-branding">
+                <button id="sidebarToggleBtn" class="btn btn-secondary" aria-label="Toggle Sidebar">☰</button>
+                <div class="app-title">Testing Electronic Components</div>
+                <span id="viewIndicator" class="view-indicator student">Student View</span>
+            </div>
+            <div class="header-actions">
+                <!-- Theme Selector -->
+                <div class="control-group">
+                    <label for="themeSelect">Theme:</label>
+                    <select id="themeSelect">
+                        <option value="light">Light Theme</option>
+                        <option value="dark">Dark Theme</option>
+                        <option value="pastel">Pastel Theme</option>
+                    </select>
+                </div>
+
+                <!-- Support Project Modal Trigger Button -->
+                <button id="openDonationModalBtn" class="btn btn-accent">☕ Support Us</button>
+
+                <!-- Font Size Selector -->
+                <div class="control-group">
+                    <label for="fontSizeSelect">Text Size:</label>
+                    <select id="fontSizeSelect">
+                        <option value="font-small">Small</option>
+                        <option value="font-medium" selected>Medium</option>
+                        <option value="font-large">Large</option>
+                    </select>
+                </div>
+                <!-- Mode Toggle Button -->
+                <button id="teacherAuthBtn" class="btn btn-outline">Teacher Access</button>
+            </div>
+        </div>
+
+        <nav class="nav-bar" id="mainNav">
+            <button class="nav-btn active" data-target="sec-objectives">Objectives</button>
+            <button class="nav-btn" data-target="sec-discussion">Topic Discussion</button>
+            <button class="nav-btn" data-target="sec-components">Components</button>
+            <button class="nav-btn" data-target="sec-assessment">Assessment</button>
+            <button class="nav-btn" data-target="sec-assignment">Assignment</button>
+            <button class="nav-btn" data-target="sec-references">References</button>
+            <!-- Sole Teacher Navigation Tab -->
+            <button class="nav-btn teacher-only" data-target="sec-admin" style="display:none;">Admin & Integration</button>
+        </nav>
+    </header>
+
+    <!-- MAIN APP CONTAINER -->
+    <div class="app-container">
+        <!-- LEFT SIDEBAR -->
+        <aside id="appSidebar" class="sidebar">
+            <div class="sidebar-header">
+                <span class="sidebar-text" style="font-weight:700;">Navigation Shortcuts</span>
+                <button id="collapseSidebarBtn" class="btn btn-secondary" style="padding:0.2rem 0.5rem;">«</button>
+            </div>
+            <ul class="sidebar-menu">
+                <li><button onclick="navigateTo('sec-objectives')">🎯 <span class="sidebar-text">Curriculum Standards</span></button></li>
+                <li><button onclick="navigateTo('sec-discussion')">📖 <span class="sidebar-text">Safety & Procedures</span></button></li>
+                <li><button onclick="navigateTo('sec-components')">⚡ <span class="sidebar-text">Interactive Parts</span></button></li>
+                <li><button onclick="navigateTo('sec-assessment')">📝 <span class="sidebar-text">Knowledge Test</span></button></li>
+                <li><button onclick="openDonationModal()">☕ <span class="sidebar-text">Support Us</span></button></li>
+            </ul>
+        </aside>
+
+        <!-- MAIN CONTENT AREA -->
+        <main class="main-content">
+
+            <!-- SECTION: OBJECTIVES -->
+            <section id="sec-objectives" class="content-section active">
+                <div class="card">
+                    <h2>Targeted Competencies & Standards</h2>
+                    <p style="margin-top:0.5rem;">Unit Code: <strong>ELC724205 / TLE-IA EPAS</strong> - Test Electronic Components</p>
+                    <hr style="margin: 1rem 0; border-color: var(--border-color);">
+                    
+                    <h3>Standard Statements</h3>
+                    <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                        <li><strong>Content Standard:</strong> The learner demonstrates understanding of the principles, safety practices, and procedures for testing passive and active electronic components using a multimeter.</li>
+                        <li><strong>Performance Standard:</strong> The learner independently tests and evaluates resistors, capacitors, diodes, and LEDs according to standard operating procedures and technical specifications.</li>
+                    </ul>
+
+                    <h3 style="margin-top:1rem;">Bloom's Taxonomy Targeted Objectives</h3>
+                    <div class="grid-2" style="margin-top:0.5rem;">
+                        <div class="card" style="margin-bottom:0;">
+                            <h4>Cognitive (Creating)</h4>
+                            <p>Design a step-by-step diagnostic flowchart for testing resistors, capacitors, diodes, and LEDs to accurately determine operational status.</p>
+                        </div>
+                        <div class="card" style="margin-bottom:0;">
+                            <h4>Psychomotor (Origination)</h4>
+                            <p>Construct a custom component-testing bench setup using a multimeter, jumper leads, and a breadboard to efficiently evaluate components.</p>
+                        </div>
+                        <div class="card" style="margin-bottom:0;">
+                            <h4>Affective (Internalizing Values)</h4>
+                            <p>Verify the condition of each component with caution by power-checking circuits and discharging capacitors prior to measurement.</p>
+                        </div>
+                        <div class="card" style="margin-bottom:0;">
+                            <h4>Core Value (Maka-tao)</h4>
+                            <p>Display concern for others by consistently enforcing safety protocols and warning peers before handling charged capacitors or live circuits.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: TOPIC DISCUSSION -->
+            <section id="sec-discussion" class="content-section">
+                <div class="card">
+                    <h2>Testing Electronic Components Guide</h2>
+                    <p>Comprehensive guide on testing Resistors, Capacitors, Diodes, LEDs, and Voltage Sources using a Digital Multimeter (DMM) and Analog Volt-Ohm-Milliammeter (VOM).</p>
+
+                    <div class="alert alert-info" style="margin-top:1rem;">
+                        <strong>Mandatory Safety Rules:</strong><br>
+                        1. Power Down the Circuit completely before measuring resistance, capacitance, or diodes.<br>
+                        2. Discharge Capacitors prior to touching or measuring.<br>
+                        3. Isolate Components (desolder at least one lead for accurate out-of-circuit testing).<br>
+                        4. Verify Voltmeter settings (AC vs. DC) before measuring live voltage circuits!
+                    </div>
+
+                    <!-- HANDS-ON DIGITAL MULTIMETER SIMULATOR WIDGET -->
+                    <div class="dmm-sim-container">
+                        <h3>🧪 Hands-On Digital Multimeter Interactive Simulator</h3>
+                        <p style="font-size:0.9rem; margin:0.5rem 0 1rem 0; color:var(--text-secondary);">
+                            Select a component or voltage source to test, turn the rotary dial to the correct measurement mode, and click on the terminals to place the RED and BLACK multimeter probes!
+                        </p>
+
+                        <div class="dmm-layout">
+                            <!-- Left: Multimeter Body -->
+                            <div class="dmm-body">
+                                <div class="dmm-screen">
+                                    <span id="dmmModeLabel" class="dmm-screen-mode">OFF</span>
+                                    <span id="dmmDisplay">OFF</span>
+                                </div>
+
+                                <div class="dmm-dial-area">
+                                    <div class="dmm-dial-outer">
+                                        <!-- 12:00 O'clock: OFF -->
+                                        <span class="dmm-dial-label dmm-label-off">OFF</span>
+                                        
+                                        <!-- 2:00 O'clock: DC Voltage -->
+                                        <span class="dmm-dial-label dmm-label-dcv" title="DC Voltage">V=</span>
+                                        
+                                        <!-- 4:00 O'clock: AC Voltage -->
+                                        <span class="dmm-dial-label dmm-label-acv" title="AC Voltage">V~</span>
+                                        
+                                        <!-- 6:00 O'clock: Resistance -->
+                                        <span class="dmm-dial-label dmm-label-res"><span class="ohm-symbol">Ω</span></span>
+                                        
+                                        <!-- 8:00 O'clock: Diode Test Symbol -->
+                                        <span class="dmm-dial-label dmm-label-diode" title="Diode Test">
+                                            <svg width="22" height="16" viewBox="0 0 30 20">
+                                                <line x1="0" y1="10" x2="30" y2="10" stroke="#cbd5e1" stroke-width="2"/>
+                                                <polygon points="10,2 22,10 10,18" fill="none" stroke="#cbd5e1" stroke-width="2"/>
+                                                <line x1="22" y1="2" x2="22" y2="18" stroke="#cbd5e1" stroke-width="2"/>
+                                            </svg>
+                                        </span>
+                                        
+                                        <!-- 10:00 O'clock: Capacitance -->
+                                        <span class="dmm-dial-label dmm-label-cap">F</span>
+                                        
+                                        <div id="dmmKnob" class="dmm-dial-knob" style="transform: rotate(0deg);">
+                                            <div class="dmm-dial-indicator"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="font-size:0.75rem; text-align:center; color:#94a3b8; margin-top:0.25rem;">Click Dial to Switch Mode</div>
+
+                                <div class="dmm-ports">
+                                    <div class="dmm-port-jack dmm-port-com">COM</div>
+                                    <div class="dmm-port-jack dmm-port-red">V/<span class="ohm-symbol">Ω</span></div>
+                                </div>
+                            </div>
+
+                            <!-- Right: Component Testing Bench -->
+                            <div class="dmm-workbench">
+                                <div style="display:flex; gap:0.5rem; flex-wrap:wrap; align-items:center;">
+                                    <label for="dmmComponentSelect"><strong>Select Component to Test:</strong></label>
+                                    <select id="dmmComponentSelect" style="flex: 1; min-width: 200px;">
+                                        <option value="res_1k">1kΩ Resistor (Good)</option>
+                                        <option value="res_open">Resistor (Defective - Open)</option>
+                                        <option value="diode_silicon">1N4007 Silicon Diode (Good)</option>
+                                        <option value="diode_shorted">Diode (Defective - Shorted)</option>
+                                        <option value="led_red">Red LED (Good)</option>
+                                        <option value="cap_100u">100µF Electrolytic Capacitor (Good)</option>
+                                        <option value="volt_dc_9v">9V DC Battery (Voltage Source)</option>
+                                        <option value="volt_ac_220v">220V AC Outlet (AC Mains Source)</option>
+                                    </select>
+                                    <button id="resetProbesBtn" class="btn btn-secondary" style="padding:0.3rem 0.75rem; font-size:0.8rem;">Reset Probes</button>
+                                </div>
+
+                                <div class="dmm-test-bench">
+                                    <div id="compVisual" class="dmm-interactive-comp">
+                                        <!-- Rendered dynamically -->
+                                    </div>
+                                    <div id="dmmFeedback" class="alert alert-info" style="width:100%; margin-top:0.5rem; text-align:center; font-size:0.85rem;">
+                                        Set dial mode and click component terminals to connect probes.
+                                    </div>
+                                </div>
+
+                                <div class="probe-status-banner">
+                                    <div><strong style="color:var(--danger);">● Red Probe (+)</strong>: <span id="redProbeStatus">Disconnected</span></div>
+                                    <div><strong style="color:#0f172a;">● Black Probe (-)</strong>: <span id="blackProbeStatus">Disconnected</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- HANDS-ON ANALOG MULTIMETER (VOM) SIMULATOR WIDGET -->
+                    <div class="vom-sim-container">
+                        <h3>📈 Interactive Analog Multimeter (VOM) Simulator Widget</h3>
+                        <p style="font-size:0.9rem; margin:0.5rem 0 1rem 0; color:var(--text-secondary);">
+                            Experience real laboratory testing with a moving-coil galvanometer needle, logarithmic resistance scales (Ω), 0-Ω ADJ zero-calibration, and multi-range multiplier selectors (R×1, R×10, R×1k, 10V DCV, 250V ACV)!
+                        </p>
+
+                        <div class="vom-layout">
+                            <!-- Left: Analog Multimeter Body -->
+                            <div class="vom-body">
+                                <div class="vom-meter-housing">
+                                    <svg width="280" height="150" viewBox="0 0 300 160" style="background:#fefefe; border-radius:6px; width:100%; height:auto;">
+                                        <!-- Meter Face Background & Mirrored Arc Strip -->
+                                        <path d="M 30 135 A 120 120 0 0 1 270 135" fill="none" stroke="#e2e8f0" stroke-width="14"/>
+                                        <path d="M 40 130 A 110 110 0 0 1 260 130" fill="none" stroke="#cbd5e1" stroke-width="4" stroke-dasharray="2 2"/>
+                                        
+                                        <!-- Resistance Scale Arc (GREEN: Ohms logarithmic, infinity at left, 0 at right) -->
+                                        <path d="M 35 125 A 115 115 0 0 1 265 125" fill="none" stroke="#10b981" stroke-width="2.5"/>
+                                        <!-- Green Resistance Ticks & Text -->
+                                        <text x="32" y="140" font-size="9" font-weight="bold" fill="#047857">∞</text>
+                                        <text x="55" y="105" font-size="8" font-weight="bold" fill="#047857">1k</text>
+                                        <text x="80" y="80" font-size="8" font-weight="bold" fill="#047857">200</text>
+                                        <text x="115" y="60" font-size="8" font-weight="bold" fill="#047857">50</text>
+                                        <text x="147" y="52" font-size="8" font-weight="bold" fill="#047857">20</text>
+                                        <text x="180" y="60" font-size="8" font-weight="bold" fill="#047857">10</text>
+                                        <text x="215" y="80" font-size="8" font-weight="bold" fill="#047857">5</text>
+                                        <text x="242" y="105" font-size="8" font-weight="bold" fill="#047857">2</text>
+                                        <text x="264" y="140" font-size="9" font-weight="bold" fill="#047857">0</text>
+                                        <text x="270" y="48" font-size="11" font-weight="extrabold" fill="#047857">Ω</text>
+
+                                        <!-- DC Voltage / Current Scale Arc (BLACK/DARK BLUE: 0 to 10 linear) -->
+                                        <path d="M 45 130 A 105 105 0 0 1 255 130" fill="none" stroke="#0f172a" stroke-width="1.5"/>
+                                        <text x="44" y="148" font-size="8" font-weight="bold" fill="#0f172a">0</text>
+                                        <text x="88" y="102" font-size="8" font-weight="bold" fill="#0f172a">2.5</text>
+                                        <text x="147" y="75" font-size="8" font-weight="bold" fill="#0f172a">5.0</text>
+                                        <text x="206" y="102" font-size="8" font-weight="bold" fill="#0f172a">7.5</text>
+                                        <text x="250" y="148" font-size="8" font-weight="bold" fill="#0f172a">10</text>
+                                        <text x="20" y="48" font-size="9" font-weight="bold" fill="#0f172a">DC V.mA</text>
+
+                                        <!-- AC Voltage Scale Arc (RED) -->
+                                        <path d="M 55 135 A 95 95 0 0 1 245 135" fill="none" stroke="#ef4444" stroke-width="1.5"/>
+                                        <text x="54" y="154" font-size="7" font-weight="bold" fill="#dc2626">0</text>
+                                        <text x="145" y="94" font-size="7" font-weight="bold" fill="#dc2626">125V</text>
+                                        <text x="238" y="154" font-size="7" font-weight="bold" fill="#dc2626">250V</text>
+                                        <text x="135" y="115" font-size="8" font-weight="bold" fill="#dc2626">AC 250V</text>
+
+                                        <!-- Galvanometer Moving Needle -->
+                                        <g id="vomNeedleGroup" style="transform-origin: 150px 140px; transform: rotate(270deg); transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+                                            <line x1="150" y1="140" x2="150" y2="22" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round"/>
+                                            <circle cx="150" cy="140" r="7" fill="#1e293b" stroke="#64748b" stroke-width="2"/>
+                                        </g>
+                                    </svg>
+                                </div>
+
+                                <div class="vom-dial-controls">
+                                    <!-- Range Knob -->
+                                    <div class="vom-knob-container">
+                                        <span class="vom-knob-label">Range Selector</span>
+                                        <div id="vomKnob" class="vom-rotary-knob" style="transform: rotate(0deg);" title="Click to Switch Range">
+                                            <div class="vom-knob-pointer"></div>
+                                        </div>
+                                        <span id="vomRangeLabel" style="font-size:0.75rem; font-weight:bold; color:#f59e0b; margin-top:2px;">OFF</span>
+                                    </div>
+
+                                    <!-- 0-OHM ADJ KNOB -->
+                                    <div class="vom-knob-container">
+                                        <span class="vom-knob-label">0-Ω ADJ</span>
+                                        <div id="vomZeroAdjKnob" class="vom-zero-adj-knob" title="Click to Calibrate Zero Ohms"></div>
+                                        <span style="font-size:0.65rem; color:#cbd5e1;">Zero Calib</span>
+                                    </div>
+                                </div>
+
+                                <div class="dmm-ports" style="margin-top:0.75rem;">
+                                    <div class="dmm-port-jack dmm-port-com">COM</div>
+                                    <div class="dmm-port-jack dmm-port-red" style="background-color:var(--danger);">V-Ω-A</div>
+                                </div>
+                            </div>
+
+                            <!-- Right: Analog Workbench -->
+                            <div class="dmm-workbench">
+                                <div style="display:flex; gap:0.5rem; flex-wrap:wrap; align-items:center;">
+                                    <label for="vomComponentSelect"><strong>Select Component to Test:</strong></label>
+                                    <select id="vomComponentSelect" style="flex: 1; min-width: 200px;">
+                                        <option value="res_1k">1kΩ Resistor (Good)</option>
+                                        <option value="res_330">330Ω Resistor (Good)</option>
+                                        <option value="res_open">Resistor (Defective - Open)</option>
+                                        <option value="diode_silicon">1N4007 Silicon Diode (Good)</option>
+                                        <option value="diode_shorted">Diode (Defective - Shorted)</option>
+                                        <option value="led_red">Red LED (Good)</option>
+                                        <option value="volt_dc_9v">9V DC Battery (Voltage Source)</option>
+                                        <option value="volt_ac_220v">220V AC Outlet (AC Mains Source)</option>
+                                    </select>
+                                    <button id="resetVomProbesBtn" class="btn btn-secondary" style="padding:0.3rem 0.75rem; font-size:0.8rem;">Reset Probes</button>
+                                </div>
+
+                                <div class="dmm-test-bench">
+                                    <div id="vomCompVisual" class="dmm-interactive-comp">
+                                        <!-- Rendered dynamically -->
+                                    </div>
+                                    <div id="vomFeedback" class="alert alert-info" style="width:100%; margin-top:0.5rem; text-align:center; font-size:0.85rem;">
+                                        Select range multiplier and connect probes to calculate pointer deflection.
+                                    </div>
+                                </div>
+
+                                <div class="probe-status-banner">
+                                    <div><strong style="color:var(--danger);">● Red Probe (+)</strong>: <span id="vomRedStatus">Disconnected</span></div>
+                                    <div><strong style="color:#0f172a;">● Black Probe (-)</strong>: <span id="vomBlackStatus">Disconnected</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>1. Resistor Diagnostics</h3>
+                    <p>Resistors limit current (R = V/I). Check color codes or SMD labels for nominal value and tolerance.</p>
+                    <ul>
+                        <li>Set DMM to Resistance (<span class="ohm-symbol">Ω</span>). Touch probes to leads (non-polar).</li>
+                        <li><strong>Good:</strong> Reading within tolerance (e.g., <strong>1 k<span class="ohm-symbol">Ω</span> ± 5% = 950 <span class="ohm-symbol">Ω</span> – 1050 <span class="ohm-symbol">Ω</span></strong>).</li>
+                        <li><strong>Defective:</strong> Displays <code>OL</code> (Open) or drifted significantly higher due to thermal degradation.</li>
+                    </ul>
+
+                    <h3 style="margin-top:1rem;">2. Capacitor Diagnostics</h3>
+                    <p>Capacitors store electrical energy electrostatically and filter power line noise. Discharge fully before testing!</p>
+                    <ul>
+                        <li><strong>Capacitance Mode:</strong> Connect red probe to positive anode (longer lead) and black to cathode. Confirm value within ±20% of rated value in Farads (<span class="unit-badge">F</span> / <span class="unit-badge">µF</span>).</li>
+                        <li><strong>Resistance Mode Charging Check:</strong> Set to high resistance (100 k<span class="ohm-symbol">Ω</span>). Probe should show low resistance, then steadily rise toward infinity (<code>OL</code>) as the meter battery charges the dielectric.</li>
+                    </ul>
+
+                    <h3 style="margin-top:1rem;">3. Diode & LED Diagnostics</h3>
+                    <p>One-way semiconductor gates. Set DMM to Diode Mode <span class="diode-mode-symbol"><svg width="18" height="12" viewBox="0 0 30 20" style="vertical-align:middle;"><line x1="0" y1="10" x2="30" y2="10" stroke="var(--primary)" stroke-width="2"/><polygon points="10,2 22,10 10,18" fill="var(--primary)" stroke="var(--primary)" stroke-width="2"/><line x1="22" y1="2" x2="22" y2="18" stroke="var(--primary)" stroke-width="3"/></svg> |</span>.</p>
+                    <ul>
+                        <li><strong>Forward Bias (Red to Anode, Black to Cathode):</strong> Silicon diodes drop <strong>0.5 V – 0.7 V</strong>; Schottky diodes drop <strong>0.15 V – 0.4 V</strong>; LEDs drop <strong>1.8 V – 3.5 V</strong> and glow faintly.</li>
+                        <li><strong>Reverse Bias (Red to Cathode, Black to Anode):</strong> Must read <code>OL</code> (Over Limit). Reading a low voltage drop in reverse bias indicates a shorted or leaky semiconductor junction.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- SECTION: INTERACTIVE COMPONENTS (ENHANCED OHM'S LAW, CAPACITOR & LED ELECTRONIC SYMBOLS) -->
+            <section id="sec-components" class="content-section">
+                <h2>Interactive Component Library</h2>
+                <p style="margin-bottom: 1rem; color: var(--text-secondary);">High-definition realistic physical components accompanied by standard electrical schematic symbols.</p>
+                
+                <div class="grid-2">
+                    
+                    <!-- Resistor Card -->
+                    <div class="component-card">
+                        <h3>Resistor</h3>
+                        <p><strong>Function:</strong> Limits current and drops voltage in a circuit.</p>
+                        <p><strong>Unit:</strong> Ohms (<span class="ohm-symbol">Ω</span>)</p>
+                        
+                        <div class="svg-icon-dual">
+                            <div class="diagram-box">
+                                <span class="diagram-label">Physical Component</span>
+                                <svg width="150" height="50" viewBox="0 0 150 50">
+                                    <line x1="0" y1="25" x2="30" y2="25" stroke="#94a3b8" stroke-width="4"/>
+                                    <line x1="120" y1="25" x2="150" y2="25" stroke="#94a3b8" stroke-width="4"/>
+                                    <rect x="30" y="10" width="90" height="30" rx="6" fill="#e0cb97" stroke="#b48843" stroke-width="2"/>
+                                    <!-- 390 Ohm 5% Bands: Orange, White, Brown, Gold -->
+                                    <rect x="45" y="10" width="6" height="30" fill="#f97316"/>
+                                    <rect x="58" y="10" width="6" height="30" fill="#ffffff"/>
+                                    <rect x="71" y="10" width="6" height="30" fill="#78350f"/>
+                                    <rect x="98" y="10" width="6" height="30" fill="#d97706"/>
+                                </svg>
+                            </div>
+                            <div class="diagram-box">
+                                <span class="diagram-label">Schematic Symbol</span>
+                                <svg width="130" height="50" viewBox="0 0 130 50">
+                                    <path d="M 5 25 L 25 25 L 32 12 L 46 38 L 60 12 L 74 38 L 88 12 L 95 25 L 125 25" stroke="var(--primary)" stroke-width="3" fill="none"/>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <p><strong>Calculation Example (Ohm's Law):</strong></p>
+                        <p>To limit current to <strong>10 mA</strong> (0.010 A) from a <strong>5V DC</strong> supply for a <strong>2V</strong> drop requirement:</p>
+                        
+                        <div class="formula-box">
+                            R = (V<sub>supply</sub> - V<sub>drop</sub>) / I<br>
+                            R = (5V - 2V) / 0.010A = 300 <span class="ohm-symbol">Ω</span>
+                        </div>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary);">(Select standard <strong>330 <span class="ohm-symbol">Ω</span></strong> or <strong>390 <span class="ohm-symbol">Ω</span></strong> resistor).</p>
+                    </div>
+
+                    <!-- Capacitor Card -->
+                    <div class="component-card">
+                        <h3>Capacitor (Electrolytic) ⚡</h3>
+                        <p><strong>Function:</strong> Stores energy electrostatically; filters power noise and smooths ripple voltages in DC power supplies.</p>
+                        <p><strong>Unit:</strong> Farads (<span class="unit-badge">F</span> / Microfarads <span class="unit-badge">µF</span>)</p>
+                        
+                        <div class="svg-icon-dual">
+                            <div class="diagram-box">
+                                <span class="diagram-label">Physical Component</span>
+                                <svg width="150" height="55" viewBox="0 0 150 55">
+                                    <line x1="0" y1="27" x2="40" y2="27" stroke="#94a3b8" stroke-width="4"/>
+                                    <line x1="110" y1="27" x2="150" y2="27" stroke="#94a3b8" stroke-width="4"/>
+                                    <rect x="40" y="8" width="70" height="38" rx="4" fill="#0284c7" stroke="#0369a1" stroke-width="2"/>
+                                    <rect x="92" y="8" width="18" height="38" fill="#e2e8f0"/>
+                                    <text x="98" y="22" font-size="10" font-weight="bold" fill="#0f172a">-</text>
+                                    <text x="98" y="38" font-size="10" font-weight="bold" fill="#0f172a">-</text>
+                                </svg>
+                            </div>
+                            <div class="diagram-box">
+                                <span class="diagram-label">Schematic Symbol</span>
+                                <svg width="130" height="50" viewBox="0 0 130 50">
+                                    <line x1="5" y1="25" x2="55" y2="25" stroke="var(--primary)" stroke-width="3"/>
+                                    <line x1="55" y1="10" x2="55" y2="40" stroke="var(--primary)" stroke-width="4"/>
+                                    <path d="M 70 10 Q 64 25 70 40" stroke="var(--primary)" stroke-width="4" fill="none"/>
+                                    <line x1="68" y1="25" x2="125" y2="25" stroke="var(--primary)" stroke-width="3"/>
+                                    <text x="40" y="16" font-size="12" font-weight="bold" fill="var(--primary)">+</text>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <p><strong>Key Note:</strong> Polarized electrolytic capacitors have a longer lead for Anode (+) and a broad stripe for Cathode (-).</p>
+                    </div>
+
+                    <!-- Diode Card -->
+                    <div class="component-card">
+                        <h3>Diode (Rectifier)</h3>
+                        <p><strong>Function:</strong> One-way semiconductor gates allowing current to flow in forward bias direction only.</p>
+                        <p><strong>Polarity:</strong> Anode (+) and Cathode (-)</p>
+                        
+                        <div class="svg-icon-dual">
+                            <div class="diagram-box">
+                                <span class="diagram-label">Physical Component</span>
+                                <svg width="150" height="50" viewBox="0 0 150 50">
+                                    <line x1="0" y1="25" x2="35" y2="25" stroke="#94a3b8" stroke-width="4"/>
+                                    <line x1="115" y1="25" x2="150" y2="25" stroke="#94a3b8" stroke-width="4"/>
+                                    <rect x="35" y="10" width="80" height="30" rx="3" fill="#1e293b" stroke="#0f172a" stroke-width="2"/>
+                                    <rect x="98" y="10" width="12" height="30" fill="#e2e8f0"/>
+                                </svg>
+                            </div>
+                            <div class="diagram-box">
+                                <span class="diagram-label">Schematic Symbol</span>
+                                <svg width="130" height="50" viewBox="0 0 130 50">
+                                    <line x1="5" y1="25" x2="125" y2="25" stroke="var(--primary)" stroke-width="3"/>
+                                    <polygon points="45,10 80,25 45,40" fill="none" stroke="var(--primary)" stroke-width="3"/>
+                                    <line x1="80" y1="10" x2="80" y2="40" stroke="var(--primary)" stroke-width="4"/>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <p><strong>Application:</strong> Rectification (AC to DC conversion) and reverse-polarity protection.</p>
+                    </div>
+
+                    <!-- LED Card -->
+                    <div class="component-card">
+                        <h3>Light Emitting Diode (LED) 💡</h3>
+                        <p><strong>Function:</strong> Emits light electro-luminescently when electric current flows through its PN junction in forward bias.</p>
+                        <p style="margin-top:0.4rem;"><strong>Forward Voltage Drop (V<sub>f</sub>):</strong></p>
+                        <ul style="margin-left: 1.25rem; font-size: 0.9rem;">
+                            <li>🔴 🟡 <strong>Red / Yellow:</strong> 1.8V – 2.2V</li>
+                            <li>🔵 ⚪ <strong>Blue / White:</strong> 3.0V – 3.6V</li>
+                        </ul>
+                        
+                        <div class="svg-icon-dual">
+                            <div class="diagram-box">
+                                <span class="diagram-label">Physical Component</span>
+                                <svg width="150" height="55" viewBox="0 0 150 55">
+                                    <line x1="0" y1="27" x2="50" y2="27" stroke="#94a3b8" stroke-width="4"/>
+                                    <line x1="100" y1="27" x2="150" y2="27" stroke="#94a3b8" stroke-width="4"/>
+                                    <path d="M 50 12 L 90 12 C 108 12, 108 42, 90 42 L 50 42 Z" fill="rgba(239, 68, 68, 0.85)" stroke="#dc2626" stroke-width="2"/>
+                                    <path d="M 58 20 L 72 20 L 76 28 L 58 28 Z" fill="#e2e8f0"/>
+                                </svg>
+                            </div>
+                            <div class="diagram-box">
+                                <span class="diagram-label">Schematic Symbol</span>
+                                <svg width="130" height="50" viewBox="0 0 130 50">
+                                    <line x1="5" y1="25" x2="125" y2="25" stroke="var(--primary)" stroke-width="3"/>
+                                    <polygon points="45,10 80,25 45,40" fill="none" stroke="var(--primary)" stroke-width="3"/>
+                                    <line x1="80" y1="10" x2="80" y2="40" stroke="var(--primary)" stroke-width="4"/>
+                                    <path d="M 65 10 L 78 0 M 78 0 L 73 4 M 78 0 L 74 -3" stroke="var(--accent)" stroke-width="2"/>
+                                    <path d="M 75 16 L 88 6 M 88 6 L 83 10 M 88 6 L 84 3" stroke="var(--accent)" stroke-width="2"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- SECTION: ASSESSMENT (PROTECTED BY ACCESS CODE) -->
+            <section id="sec-assessment" class="content-section">
+                <!-- Lock Panel -->
+                <div id="assessmentLockPanel" class="card text-center" style="max-width:500px; margin: 2rem auto;">
+                    <h2>Protected Knowledge Assessment</h2>
+                    <p style="margin: 1rem 0;">Enter the assessment access code provided by your teacher to unlock the 15-item evaluation.</p>
+                    <div style="margin-bottom:1rem;">
+                        <input type="password" id="assessCodeInput" placeholder="Enter Access Code" style="width:100%; max-width:300px;">
+                    </div>
+                    <div>
+                        <button id="unlockAssessmentBtn" class="btn btn-primary">Unlock Assessment</button>
+                    </div>
+                    <div id="assessCodeErr" class="alert alert-error" style="display:none; margin-top:1rem;"></div>
+                </div>
+
+                <!-- Unlocked Content -->
+                <div id="assessmentContent" class="card protected-blur" style="display:none;">
+                    <h2>Component Testing Assessment (15 Items)</h2>
+                    <p>Complete all identity information and answer every item carefully.</p>
+                    <hr style="margin: 1rem 0; border-color: var(--border-color);">
+
+                    <form id="assessmentForm">
+                        <div class="grid-2" style="margin-bottom:1.5rem;">
+                            <div>
+                                <label for="studName"><strong>Full Name: *</strong></label>
+                                <input type="text" id="studName" required style="width:100%;">
+                            </div>
+                            <div>
+                                <label for="studGrade"><strong>Grade Level: *</strong></label>
+                                <input type="text" id="studGrade" required style="width:100%;">
+                            </div>
+                            <div>
+                                <label for="studSection"><strong>Section: *</strong></label>
+                                <input type="text" id="studSection" required style="width:100%;">
+                            </div>
+                        </div>
+
+                        <!-- Questions Container -->
+                        <div id="questionsContainer"></div>
+
+                        <div style="margin-top: 2rem; text-align: center;">
+                            <button type="submit" id="submitAssessmentBtn" class="btn btn-primary" style="padding:0.75rem 2rem; font-size:1.1rem;">Submit Assessment</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- SECTION: ASSIGNMENT -->
+            <section id="sec-assignment" class="content-section">
+                <div class="card">
+                    <h2>Post-Lesson Assignment Options</h2>
+                    <p>Select one of the following assignments based on your study plan:</p>
+
+                    <div class="card" style="margin-top:1rem;">
+                        <h3>Option 1: Reinforcing (Detective Journal)</h3>
+                        <p>Locate a discarded electronics board at home. Visual-spot 2 components, then write a 3-5 sentence diagnostic plan detailing DMM modes you would use to test them out-of-circuit.</p>
+                    </div>
+
+                    <div class="card">
+                        <h3>Option 2: Enriching (Real-World Failure Reflection)</h3>
+                        <p>Interview a local repair technician or research online a device that failed due to a single burnt component. Reflect in 1 paragraph on how simple diagnostic skill prevents e-waste.</p>
+                    </div>
+
+                    <div class="card">
+                        <h3>Option 3: Enhancing (Technician Cheatsheet)</h3>
+                        <p>Create a pocket index card listing the 4 components, polarity rules, DMM settings, and GOOD vs. DEFECTIVE reading benchmarks.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: REFERENCES -->
+            <section id="sec-references" class="content-section">
+                <div class="card">
+                    <h2>References & Bibliography</h2>
+                    <ol style="margin-left:1.5rem; line-height:1.8;">
+                        <li>Boylestad, R. L., & Nashelsky, L. (2013). <em>Electronic Devices and Circuit Theory</em> (11th ed.). Pearson.</li>
+                        <li>DepEd Philippines. (2016). <em>EPAS Curriculum Guide</em>. Department of Education.</li>
+                        <li>Floyd, T. L. (2017). <em>Electronic Devices</em> (10th ed.). Pearson.</li>
+                        <li>GroB, B., & Schultz, M. E. (2015). <em>Grob's Basic Electronics</em> (12th ed.). McGraw-Hill.</li>
+                        <li>TESDA. (2019). <em>Training Regulations for EPAS NC II (Unit Code: ELC724205)</em>.</li>
+                    </ol>
+                </div>
+            </section>
+
+            <!-- TEACHER CONSOLIDATED SECTION: ADMIN & INTEGRATION -->
+            <section id="sec-admin" class="content-section teacher-only" style="display:none;">
+                
+                <!-- 1. PROTECTED ANSWER KEY & ITEM ANALYSIS -->
+                <div class="card">
+                    <h2>Protected Answer Key & Item Analysis</h2>
+                    <p style="margin-bottom:1rem; color:var(--text-secondary);">Authorized Teacher Session Active.</p>
+
+                    <h3>Item Analysis Matrix</h3>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr><th>Item</th><th>Competency Targeted</th><th>Bloom Level</th><th>Key</th></tr>
+                            </thead>
+                            <tbody id="itemMatrixBody">
+                                <!-- Populated dynamically by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 2. GOOGLE SHEETS ASSESSMENT SCORE DATASET SHORTCUT -->
+                <div class="card" style="background-color:var(--primary-light); border:1px solid var(--primary);">
+                    <h3 style="color:var(--primary); margin-bottom:0.5rem;">📊 Google Sheets Assessment Score Dataset</h3>
+                    <p style="font-size:0.9rem; margin-bottom:1rem;">Access real-time recorded student submissions (Student Name, Grade Level, Section, Score, Total Items, Percentage, and Timestamps):</p>
+                    <div id="sheetsLinkContainer">
+                        <!-- Populated dynamically by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- 3. ADMINISTRATOR & INTEGRATION PANEL (FULL ADMIN P@55w0rd ONLY) -->
+                <div id="adminPanelControls" class="card admin-only-block" style="margin-top:1.5rem; display:none;">
+                    <h2>Administrator & Integration Panel</h2>
+                    <p>Configure Google Apps Script Web App Endpoint for Sheets Data Recording.</p>
+                    <hr style="margin:1rem 0; border-color:var(--border-color);">
+                    
+                    <!-- Endpoint URL Config Input -->
+                    <div style="margin-bottom:1.5rem; background-color:var(--bg-tertiary); padding:1rem; border-radius:8px;">
+                        <label for="endpointInput"><strong>Google Apps Script Web App Deployment URL:</strong></label>
+                        <input type="text" id="endpointInput" placeholder="https://script.google.com/macros/s/.../exec" style="width:100%; margin-top:0.5rem;">
+                        <button id="saveEndpointBtn" class="btn btn-primary" style="margin-top:0.5rem;">Save Endpoint Configuration</button>
+                    </div>
+
+                    <!-- COMPLETE STEP-BY-STEP INTEGRATION TUTORIAL -->
+                    <h3>Google Apps Script Web App Setup Guide</h3>
+                    <p style="margin-bottom:1rem;">Follow these step-by-step instructions to create your Google Sheets backend database:</p>
+
+                    <ol style="margin-left:1.5rem; line-height:1.8;">
+                        <li><strong>Create Spreadsheet:</strong> Go to <a href="https://sheets.google.com" target="_blank" style="color:var(--primary);">Google Sheets</a> and create a new blank spreadsheet. Name it <code>Electronic Components Assessment Data</code>.</li>
+                        <li><strong>Open Apps Script Editor:</strong> Click <strong>Extensions</strong> → <strong>Apps Script</strong> in the top menu bar.</li>
+                        <li><strong>Paste Script Code:</strong> Erase all existing code in the editor and copy-paste the exact Google Apps Script backend code provided below.</li>
+                        <li><strong>Deploy as Web App:</strong>
+                            <ul>
+                                <li>Click <strong>Deploy</strong> (top-right blue button) → <strong>New deployment</strong>.</li>
+                                <li>Select type: <strong>Web app</strong> (gear icon).</li>
+                                <li>Description: <code>Electronic Components Endpoint V1</code>.</li>
+                                <li>Execute as: <strong>Me</strong> (your Google account).</li>
+                                <li>Who has access: <strong>Anyone</strong> (allows students to post assessment scores without requiring a Google account).</li>
+                            </ul>
+                        </li>
+                        <li><strong>Copy Web App URL:</strong> Click <strong>Deploy</strong>, grant account permissions, and copy the generated <code>Web App URL</code> (ends with <code>/exec</code>).</li>
+                        <li><strong>Bind Endpoint:</strong> Paste the copied URL into the <strong>Google Apps Script Web App Deployment URL</strong> field above and click <strong>Save Endpoint Configuration</strong>.</li>
+                    </ol>
+
+                    <!-- EMBEDDED GOOGLE APPS SCRIPT BACKEND CODE FOR DIRECT COPYING -->
+                    <h3 style="margin-top:1.5rem;">Backend Source Code (`Code.gs`)</h3>
+                    <p style="margin-bottom:0.5rem;">Copy this complete code into your Google Apps Script editor:</p>
+                    <button id="copyScriptBtn" class="btn btn-secondary" style="margin-bottom:0.5rem;" onclick="copyBackendCode()">Copy Script Code</button>
+                    
+                    <pre class="code-block" id="scriptCodeBlock">
+/**
+ * ==============================================================================
+ * GOOGLE APPS SCRIPT BACKEND SERVICE
+ * Handles Assessment Submissions and Voluntary Donation Records with
+ * Idempotency Locking to prevent duplicate records.
+ * ==============================================================================
+ */
+
+// Global Worksheet Tab Names
+const TAB_ASSESSMENT = "AssessmentSubmissions";
+const TAB_DONATION = "DonationRecords";
+
+/**
+ * Handles incoming POST requests from the Educational Web Application.
+ */
+function doPost(e) {
+  const lock = LockService.getScriptLock();
+  // Acquire lock with 10-second timeout to handle concurrent requests safely
+  try {
+    lock.waitLock(10000);
+  } catch (err) {
+    return createJsonResponse({ status: "error", message: "Server busy. Please try submitting again." });
+  }
+
+  try {
+    if (!e || !e.postData || !e.postData.contents) {
+      return createJsonResponse({ status: "error", message: "Empty submission payload." });
+    }
+
+    const data = JSON.parse(e.postData.contents);
+    const ss = SpreadsheetApp.getActiveSpreadsheet();
+
+    // Route request based on payload type
+    if (data.type === "ASSESSMENT") {
+      return processAssessmentSubmission(ss, data);
+    } else if (data.type === "DONATION") {
+      return processDonationRecord(ss, data);
+    } else {
+      return createJsonResponse({ status: "error", message: "Unknown payload type." });
+    }
+
+  } catch (error) {
+    return createJsonResponse({ status: "error", message: error.toString() });
+  } finally {
+    lock.releaseLock();
+  }
+}
+
+/**
+ * Processes and appends assessment records with duplicate checking.
+ */
+function processAssessmentSubmission(ss, data) {
+  let sheet = ss.getSheetByName(TAB_ASSESSMENT);
+  if (!sheet) {
+    sheet = initializeAssessmentSheet(ss);
+  }
+
+  // Idempotency Check: Prevent duplicate Submission IDs
+  const submissionId = data.submissionId;
+  const existingIds = sheet.getRange(2, 2, Math.max(sheet.getLastRow() - 1, 1), 1).getValues().flat();
+  
+  if (existingIds.indexOf(submissionId) !== -1) {
+    return createJsonResponse({ 
+      status: "success", 
+      message: "Submission already recorded previously (Duplicate request ignored)." 
+    });
+  }
+
+  // Append new assessment record
+  const timestamp = new Date();
+  sheet.appendRow([
+    timestamp,
+    submissionId,
+    data.fullName,
+    data.gradeLevel,
+    data.section,
+    "Testing Electronic Components Knowledge Test",
+    data.totalItems,
+    data.correctAnswers,
+    data.incorrectAnswers,
+    data.score,
+    data.percentage,
+    "RECORDED"
+  ]);
+
+  return createJsonResponse({ status: "success", message: "Assessment recorded successfully." });
+}
+
+/**
+ * Processes and appends donation records.
+ */
+function processDonationRecord(ss, data) {
+  let sheet = ss.getSheetByName(TAB_DONATION);
+  if (!sheet) {
+    sheet = initializeDonationSheet(ss);
+  }
+
+  const timestamp = new Date();
+  sheet.appendRow([
+    timestamp,
+    data.donationId,
+    data.donorName,
+    data.amount,
+    data.currency || "PHP",
+    "SUBMITTED"
+  ]);
+
+  return createJsonResponse({ status: "success", message: "Donation record logged." });
+}
+
+/**
+ * Initializes Assessment Worksheet structure automatically.
+ */
+function initializeAssessmentSheet(ss) {
+  const sheet = ss.insertSheet(TAB_ASSESSMENT);
+  const headers = [
+    "Timestamp", "Submission ID", "Full Name", "Grade Level", "Section",
+    "Assessment Name", "Total Items", "Correct Answers", "Incorrect Answers",
+    "Score", "Percentage", "Status"
+  ];
+  sheet.getRange(1, 1, 1, headers.length).setValues([headers]).setFontWeight("bold").setBackground("#f3f4f6");
+  sheet.setFrozenRows(1);
+  return sheet;
+}
+
+/**
+ * Initializes Donation Worksheet structure automatically.
+ */
+function initializeDonationSheet(ss) {
+  const sheet = ss.insertSheet(TAB_DONATION);
+  const headers = ["Timestamp", "Donation ID", "Donor Name", "Amount (PHP)", "Currency", "Status"];
+  sheet.getRange(1, 1, 1, headers.length).setValues([headers]).setFontWeight("bold").setBackground("#f3f4f6");
+  sheet.setFrozenRows(1);
+  return sheet;
+}
+
+/**
+ * Helper to construct JSON response output.
+ */
+function createJsonResponse(responseObject) {
+  return ContentService.createTextOutput(JSON.stringify(responseObject))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+/**
+ * Health Check Endpoint (doGet)
+ */
+function doGet(e) {
+  return ContentService.createTextOutput("Testing Electronic Components Web App Backend is Active.");
+}
+                    </pre>
+
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        Powered by: Desk Bhuddy IT solutions made it just for you © 2026.
+    </footer>
+
+    <!-- TEACHER LOGIN MODAL -->
+    <div id="teacherModal" class="modal-overlay">
+        <div class="modal">
+            <h3>Teacher Authorization</h3>
+            <p style="margin: 0.5rem 0 1rem 0; font-size:0.9rem;">Enter an authorized passkey (e.g. Administrator or Key Access):</p>
+            <div style="margin-bottom:1rem;">
+                <input type="password" id="teacherPassInput" placeholder="Enter Teacher Passkey" style="width:100%;">
+                <div style="margin-top:0.5rem; display:flex; align-items:center; gap:0.5rem; font-size:0.85rem;">
+                    <input type="checkbox" id="showPassCheck">
+                    <label for="showPassCheck">Show Passkey</label>
+                </div>
+            </div>
+            <div id="teacherPassErr" class="alert alert-error" style="display:none;"></div>
+            <div style="display:flex; justify-content:flex-end; gap:0.5rem; flex-wrap:wrap;">
+                <button id="closeTeacherModalBtn" class="btn btn-secondary">Cancel</button>
+                <button id="loginTeacherBtn" class="btn btn-primary">Login</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUBMISSION CONFIRMATION MODAL -->
+    <div id="confirmModal" class="modal-overlay">
+        <div class="modal text-center">
+            <h3 style="color:var(--success);">Submission Successful!</h3>
+            <p style="margin:1rem 0;">Your assessment has been successfully submitted and recorded.</p>
+            <div id="confirmDetails" style="text-align:left; background:var(--bg-tertiary); padding:1rem; border-radius:6px; font-size:0.9rem; margin-bottom:1.5rem; word-break:break-word;"></div>
+            <button id="closeConfirmModalBtn" class="btn btn-primary" style="width:100%;">Close</button>
+        </div>
+    </div>
+
+    <!-- DONATION / SUPPORT PROJECT MODAL -->
+    <div id="donationModal" class="modal-overlay">
+        <div class="modal text-center">
+            <button id="closeDonationModalBtn" class="btn btn-secondary" style="position:absolute; top:12px; right:12px; padding:0.2rem 0.6rem;">✕</button>
+            <h2 style="color:var(--primary); margin-bottom:0.5rem;">Support Us</h2>
+            <p style="margin:0.5rem 0 1.2rem 0; color:var(--text-secondary); font-size:0.9rem;">
+                Your voluntary contributions support free software maintenance and open educational resources. Donations are completely optional and do not impact grades or academic records.
+            </p>
+            
+            <div style="background-color:var(--primary-light); padding:1rem; border-radius:8px; display:inline-block; margin-bottom:1.2rem; width:100%;">
+                <span style="font-size:0.85rem; font-weight:600; color:var(--primary);">GCash Account Number:</span><br>
+                <span id="gcashNum" style="font-size:clamp(1.2rem, 4vw, 1.6rem); font-weight:800; color:var(--primary);">0968-704-2059</span><br>
+                <button id="copyGcashBtn" class="btn btn-secondary" style="margin-top:0.5rem; padding:0.25rem 0.75rem; font-size:0.85rem;">Copy GCash Number</button>
+            </div>
+
+            <form id="donationForm" style="text-align:left;">
+                <div style="margin-bottom:0.8rem;">
+                    <label for="donorName" style="font-size:0.85rem;">Donor Name (Optional / Leave blank for Anonymous):</label>
+                    <input type="text" id="donorName" placeholder="e.g., Jane Doe" style="width:100%;">
+                </div>
+                <div style="margin-bottom:1rem;">
+                    <label for="donorAmount" style="font-size:0.85rem;">Donation Amount (PHP): *</label>
+                    <input type="number" id="donorAmount" min="1" step="any" placeholder="e.g., 100" required style="width:100%;">
+                </div>
+                <button type="submit" id="submitDonationBtn" class="btn btn-primary" style="width:100%;">Record Donation</button>
+            </form>
+            <div id="donationStatus" style="margin-top:1rem;"></div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT APPLICATION LOGIC -->
+<!--
+    <script>
+    </script>
+-->
+<script src="script.js" defer></script>
+</body>
+</html>

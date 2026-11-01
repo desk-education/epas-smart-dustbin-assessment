@@ -1,0 +1,923 @@
+/* ==========================================================================
+           1. CSS CUSTOM PROPERTIES & THEMES
+           ========================================================================== */
+        :root {
+            /* Light Theme Defaults */
+            --bg-primary: #f0f4f9;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #e2e8f0;
+            --text-primary: #0f172a;
+            --text-secondary: #334155;
+            --text-muted: #64748b;
+            --border-color: #cbd5e1;
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --primary-light: #dbeafe;
+            --accent: #0284c7;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --shadow-sm: 0 2px 4px rgb(0 0 0 / 0.05);
+            --shadow-md: 0 6px 12px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 12px 24px -4px rgb(0 0 0 / 0.15);
+            --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --content-font-size: 1rem;
+            --sidebar-width: 280px;
+            --sidebar-collapsed-width: 70px;
+            --transition-speed: 0.3s;
+        }
+
+        /* Dark Theme */
+        [data-theme="dark"] {
+            --bg-primary: #0b1120;
+            --bg-secondary: #152238;
+            --bg-tertiary: #1e2d4a;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border-color: #2a3b5c;
+            --primary: #38bdf8;
+            --primary-hover: #0284c7;
+            --primary-light: #0c2a4a;
+            --accent: #f43f5e;
+            --success: #34d399;
+            --warning: #fbbf24;
+            --danger: #f87171;
+            --shadow-sm: 0 2px 4px rgb(0 0 0 / 0.4);
+            --shadow-md: 0 6px 12px rgb(0 0 0 / 0.5);
+            --shadow-lg: 0 12px 24px rgb(0 0 0 / 0.6);
+        }
+
+        /* Pastel Theme */
+        [data-theme="pastel"] {
+            --bg-primary: #fcf5f7;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #fae8ef;
+            --text-primary: #3b2a32;
+            --text-secondary: #6e525f;
+            --text-muted: #9c7d8b;
+            --border-color: #f3d2e0;
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --primary-light: #e0e7ff;
+            --accent: #ec4899;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #f43f5e;
+            --shadow-sm: 0 2px 4px rgb(236 72 153 / 0.08);
+            --shadow-md: 0 6px 12px rgb(236 72 153 / 0.12);
+            --shadow-lg: 0 12px 24px rgb(236 72 153 / 0.18);
+        }
+
+        /* Font Size Scaling Classes */
+        .font-small { --content-font-size: 0.875rem; }
+        .font-medium { --content-font-size: 1rem; }
+        .font-large { --content-font-size: 1.15rem; }
+
+        /* ==========================================================================
+           2. BASE RESETS & FLEXIBLE RESPONSIVE LAYOUT
+           ========================================================================== */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { overflow-x: hidden; }
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            transition: background-color var(--transition-speed), color var(--transition-speed);
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        header {
+            background-color: var(--bg-secondary);
+            border-bottom: 2px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-sm);
+            backdrop-filter: blur(8px);
+            width: 100%;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .app-branding {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .app-title {
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: -0.02em;
+        }
+
+        .view-indicator {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.6rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            white-space: nowrap;
+        }
+
+        .view-indicator.student { background-color: var(--primary-light); color: var(--primary); }
+        .view-indicator.teacher { background-color: #fef3c7; color: #b45309; }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-bar {
+            display: flex;
+            overflow-x: auto;
+            padding: 0 1rem;
+            gap: 0.5rem;
+            background-color: var(--bg-secondary);
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+        }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            padding: 0.75rem 1rem;
+            font-size: clamp(0.8rem, 1.5vw, 0.9rem);
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            white-space: nowrap;
+            transition: all 0.2s ease-in-out;
+            touch-action: manipulation;
+        }
+
+        .nav-btn:hover { color: var(--primary); }
+        .nav-btn.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .app-container {
+            display: flex;
+            flex: 1;
+            position: relative;
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            transition: width var(--transition-speed) ease, transform var(--transition-speed) ease;
+            display: flex;
+            flex-direction: column;
+            z-index: 90;
+            flex-shrink: 0;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .sidebar.collapsed { width: var(--sidebar-collapsed-width); }
+        .sidebar.hidden { transform: translateX(-100%); position: absolute; }
+
+        .sidebar-header {
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 1rem 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .sidebar-menu button {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 1.25rem;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-align: left;
+            border-radius: 0 20px 20px 0;
+            transition: background-color 0.2s, color 0.2s;
+            touch-action: manipulation;
+        }
+
+        .sidebar-menu button:hover { background-color: var(--bg-tertiary); color: var(--primary); }
+        .sidebar.collapsed .sidebar-text { display: none; }
+
+        .main-content {
+            flex: 1;
+            padding: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            font-size: var(--content-font-size);
+            line-height: 1.6;
+            min-width: 0;
+        }
+
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        select, input[type="text"], input[type="password"], input[type="number"], textarea {
+            padding: 0.5rem 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            max-width: 100%;
+        }
+
+        select:focus, input:focus, textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px var(--primary-light);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all 0.2s ease-in-out;
+            text-decoration: none;
+            box-shadow: var(--shadow-sm);
+            touch-action: manipulation;
+        }
+
+        .btn:hover { transform: translateY(-1px); box-shadow: var(--shadow-md); }
+        .btn:active { transform: translateY(0); }
+
+        .btn-primary { background-color: var(--primary); color: white; }
+        .btn-primary:hover { background-color: var(--primary-hover); }
+        .btn-secondary { background-color: var(--bg-tertiary); color: var(--text-primary); border-color: var(--border-color); }
+        .btn-secondary:hover { background-color: var(--border-color); }
+        .btn-outline { background: transparent; border-color: var(--primary); color: var(--primary); }
+        .btn-outline:hover { background: var(--primary-light); }
+        .btn-accent { background-color: var(--accent); color: white; }
+        .btn-accent:hover { opacity: 0.9; }
+        .btn-success { background-color: var(--success); color: white; }
+        .btn-success:hover { opacity: 0.9; }
+
+        /* ==========================================================================
+           3. CONTENT CARDS, TABLES & COMPONENTS
+           ========================================================================== */
+        .content-section { display: none; }
+        .content-section.active { display: block; animation: fadeIn 0.3s ease; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            transition: border-color 0.2s, box-shadow 0.2s;
+            width: 100%;
+        }
+        .card:hover { border-color: var(--primary-light); box-shadow: var(--shadow-md); }
+
+        .grid-2 { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 1.5rem; 
+            width: 100%;
+        }
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin: 1rem 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95em;
+            border-radius: 6px;
+            overflow: hidden;
+            min-width: 500px;
+        }
+
+        th, td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th { background-color: var(--bg-tertiary); font-weight: 600; color: var(--text-primary); }
+
+        .component-card {
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1.25rem;
+            background: var(--bg-secondary);
+            transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+            width: 100%;
+        }
+        .component-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: var(--primary); }
+
+        .svg-icon-dual { 
+            width: 100%; 
+            min-height: 120px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-around; 
+            margin: 1rem 0; 
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            flex-wrap: wrap;
+            gap: 1rem;
+            overflow-x: auto;
+        }
+
+        .svg-icon-dual .diagram-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            max-width: 100%;
+        }
+
+        .svg-icon-dual .diagram-box svg {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .svg-icon-dual .diagram-label {
+            font-size: 0.7rem;
+            font-weight: bold;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        /* Electronic Symbols & Unit Badges Custom Formatting */
+        .ohm-symbol {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--primary);
+            padding: 0 2px;
+        }
+        .unit-badge {
+            display: inline-block;
+            background-color: var(--primary-light);
+            color: var(--primary);
+            font-weight: 700;
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            border: 1px solid var(--primary);
+        }
+        .diode-mode-symbol {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: var(--bg-tertiary);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            font-weight: bold;
+        }
+        .formula-box {
+            background: var(--bg-tertiary);
+            border-left: 4px solid var(--primary);
+            padding: 0.75rem 1rem;
+            border-radius: 0 8px 8px 0;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            margin: 0.5rem 0;
+            overflow-x: auto;
+        }
+
+        pre.code-block {
+            background-color: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 1rem;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+            color: var(--text-primary);
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        /* ==========================================================================
+           4. MODALS & ACCESS OVERLAYS
+           ========================================================================== */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            padding: 1rem;
+        }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+
+        .modal {
+            background-color: var(--bg-secondary);
+            border-radius: 12px;
+            width: 100%;
+            max-width: 520px;
+            padding: 1.75rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-color);
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .protected-blur {
+            filter: blur(5px);
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            word-break: break-word;
+        }
+        .alert-info { background-color: var(--primary-light); color: var(--primary); border: 1px solid var(--primary); }
+        .alert-error { background-color: #fef2f2; color: var(--danger); border: 1px solid #fca5a5; }
+        .alert-success { background-color: #ecfdf5; color: var(--success); border: 1px solid #6ee7b7; }
+
+        /* ==========================================================================
+           5. DMM SIMULATION WIDGET STYLING & CLOCK DIAL ADJUSTMENTS
+           ========================================================================== */
+        .dmm-sim-container {
+            border: 2px solid var(--primary);
+            border-radius: 12px;
+            padding: 1.25rem;
+            background: var(--bg-secondary);
+            box-shadow: var(--shadow-md);
+            margin: 1.5rem 0;
+            width: 100%;
+        }
+
+        .dmm-layout {
+            display: grid;
+            grid-template-columns: minmax(260px, 300px) 1fr;
+            gap: 1.5rem;
+            align-items: start;
+        }
+
+        .dmm-body {
+            background: linear-gradient(145deg, #1e293b, #0f172a);
+            border-radius: 16px;
+            padding: 1.25rem;
+            color: white;
+            box-shadow: inset 0 2px 4px rgba(255,255,255,0.1), 0 10px 20px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 3px solid #334155;
+            width: 100%;
+            max-width: 320px;
+            margin: 0 auto;
+        }
+
+        .dmm-screen {
+            background-color: #8da182;
+            color: #111827;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            font-size: 1.8rem;
+            width: 100%;
+            height: 65px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 0 0.75rem;
+            border: 3px solid #334155;
+            box-shadow: inset 2px 2px 6px rgba(0,0,0,0.4);
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dmm-screen-mode {
+            position: absolute;
+            top: 4px;
+            left: 6px;
+            font-size: 0.65rem;
+            color: #1e293b;
+            text-transform: uppercase;
+        }
+
+        .dmm-dial-area {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            margin: 0.5rem 0;
+        }
+
+        .dmm-dial-outer {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: #334155;
+            border: 4px solid #475569;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .dmm-dial-knob {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #475569, #1e293b);
+            border: 2px solid #94a3b8;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+            touch-action: manipulation;
+        }
+
+        .dmm-dial-indicator {
+            position: absolute;
+            top: 6px;
+            left: 50%;
+            transform: translateX(-89%);
+            width: 6px;
+            height: 25px;
+            background-color: var(--danger);
+            border-radius: 3px;
+        }
+
+        .dmm-dial-label {
+            position: absolute;
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: #cbd5e1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .dmm-label-off    { top: 6px; left: 50%; transform: translateX(-89%); }
+        .dmm-label-dcv    { top: 26px; right: 26px; }
+        .dmm-label-acv    { bottom: 26px; right: 26px; }
+        .dmm-label-res    { bottom: 6px; left: 50%; transform: translateX(-89%); }
+        .dmm-label-diode  { bottom: 26px; left: 26px; }
+        .dmm-label-cap    { top: 26px; left: 26px; }
+
+        .dmm-ports {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .dmm-port-jack {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 3px solid #64748b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.6rem;
+            font-weight: bold;
+        }
+        .dmm-port-com { background-color: #0f172a; color: white; }
+        .dmm-port-red { background-color: var(--danger); color: white; }
+
+        .dmm-workbench {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            width: 100%;
+            min-width: 0;
+        }
+
+        .dmm-test-bench {
+            background-color: var(--bg-tertiary);
+            border: 2px dashed var(--border-color);
+            border-radius: 10px;
+            padding: 1.25rem;
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .dmm-interactive-comp {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 0.5rem 0;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+            max-width: 100%;
+            overflow-x: auto;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .dmm-interactive-comp svg {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .probe-target {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            border: 2px dashed var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            background-color: var(--bg-primary);
+            touch-action: manipulation;
+            flex-shrink: 0;
+        }
+        .probe-target:hover { transform: scale(1.08); border-color: var(--primary); }
+        .probe-target.red-connected { background-color: var(--danger); color: white; border-style: solid; box-shadow: 0 0 8px rgba(239, 68, 68, 0.5); }
+        .probe-target.black-connected { background-color: #0f172a; color: white; border-style: solid; box-shadow: 0 0 8px rgba(15, 23, 42, 0.5); }
+
+        .probe-status-banner {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        /* ==========================================================================
+           5b. VOM (ANALOG MULTIMETER) SIMULATION WIDGET STYLING
+           ========================================================================== */
+        .vom-sim-container {
+            border: 2px solid var(--accent);
+            border-radius: 12px;
+            padding: 1.25rem;
+            background: var(--bg-secondary);
+            box-shadow: var(--shadow-md);
+            margin: 1.5rem 0;
+            width: 100%;
+        }
+
+        .vom-layout {
+            display: grid;
+            grid-template-columns: minmax(280px, 340px) 1fr;
+            gap: 1.5rem;
+            align-items: start;
+        }
+
+        .vom-body {
+            background: linear-gradient(145deg, #0f172a, #1e293b);
+            border-radius: 16px;
+            padding: 1.25rem;
+            color: white;
+            box-shadow: inset 0 2px 4px rgba(255,255,255,0.1), 0 10px 20px rgba(0,0,0,0.4);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 3px solid #334155;
+            width: 100%;
+            max-width: 350px;
+            margin: 0 auto;
+        }
+
+        .vom-meter-housing {
+            background: #f8fafc;
+            border: 4px solid #334155;
+            border-radius: 10px;
+            width: 100%;
+            padding: 0.5rem;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.3);
+            margin-bottom: 0.75rem;
+            position: relative;
+        }
+
+        .vom-dial-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .vom-knob-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .vom-knob-label {
+            font-size: 0.65rem;
+            font-weight: bold;
+            color: #94a3b8;
+            text-transform: uppercase;
+        }
+
+        .vom-rotary-knob {
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #475569, #0f172a);
+            border: 2px solid #cbd5e1;
+            position: relative;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.4);
+            transition: transform 0.2s ease;
+            touch-action: manipulation;
+        }
+
+        .vom-knob-pointer {
+            position: absolute;
+            top: 4px;
+            left: 50%;
+            transform: translateX(-89%);
+            width: 5px;
+            height: 20px;
+            background-color: var(--warning);
+            border-radius: 2px;
+        }
+
+        .vom-zero-adj-knob {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #64748b, #334155);
+            border: 2px solid #94a3b8;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            transition: transform 0.1s ease;
+            touch-action: manipulation;
+        }
+
+        footer {
+            background-color: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            padding: 1.5rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: auto;
+            width: 100%;
+        }
+
+        /* ==========================================================================
+           6. RESPONSIVE MEDIA QUERIES (TABLETS, MOBILES, DESKTOPS)
+           ========================================================================== */
+        @media (max-width: 1024px) {
+            .main-content { padding: 1.25rem; }
+            .dmm-layout, .vom-layout { grid-template-columns: 1fr; }
+            .dmm-body, .vom-body { max-width: 340px; }
+        }
+
+        @media (max-width: 768px) {
+            .header-top {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.75rem;
+                padding: 0.75rem 1rem;
+            }
+            .header-actions {
+                justify-content: space-between;
+                width: 100%;
+            }
+            .app-branding {
+                justify-content: space-between;
+                width: 100%;
+            }
+            .sidebar {
+                position: fixed;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                height: 100%;
+                box-shadow: var(--shadow-lg);
+            }
+            .sidebar.hidden {
+                transform: translateX(-100%);
+            }
+            .main-content {
+                padding: 1rem 0.75rem;
+            }
+            .card {
+                padding: 1rem;
+            }
+            .dmm-sim-container, .vom-sim-container {
+                padding: 0.85rem;
+            }
+            .svg-icon-dual {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .control-group {
+                justify-content: space-between;
+            }
+            .btn {
+                width: 100%;
+            }
+            .dmm-screen {
+                font-size: 1.4rem;
+                height: 55px;
+            }
+            .dmm-dial-area {
+                width: 150px;
+                height: 150px;
+            }
+            .dmm-dial-knob {
+                width: 65px;
+                height: 65px;
+            }
+            .dmm-interactive-comp {
+                flex-direction: column;
+                gap: 8px;
+            }
+        }
