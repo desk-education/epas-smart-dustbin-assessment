@@ -1,884 +1,577 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>Testing Electronic Components - Interactive Learning Platform</title>
-	<link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b6bcb">
+<title>Arduino Smart Dustbin | Interactive Student Lesson</title>
+<link rel="stylesheet" href="style.css">
 <!--
-    <style>
-        
-    </style>
+<style>
+
+</style>
 -->
 </head>
-<body class="font-medium" data-theme="light">
+<body>
+<header class="topbar">
+ <div class="container topbar-inner">
+  <div class="brand"><span class="brand-mark">⚙</span><span>ARDUINO LEARNING LAB</span></div>
+  <div class="actions">
+    <button class="btn secondary sidebar-toggle" id="sidebarToggle" type="button" aria-controls="lessonSidebar" aria-expanded="true" aria-label="Hide lesson sidebar">☰ Hide menu</button>
+   <button class="btn donation-launch" id="donationOpenBtn" type="button" aria-haspopup="dialog">💙 Support via GCash</button>
+   <button class="btn secondary" id="themeToggle" type="button" aria-label="Toggle light and dark theme">🌙 Dark mode</button>
+   <button class="btn secondary" type="button" onclick="window.print()">🖨 Print lesson</button>
+  </div>
+ </div>
+</header>
 
-    <!-- HEADER & NAVIGATION -->
-    <header>
-        <div class="header-top">
-            <div class="app-branding">
-                <button id="sidebarToggleBtn" class="btn btn-secondary" aria-label="Toggle Sidebar">☰</button>
-                <div class="app-title">Testing Electronic Components</div>
-                <span id="viewIndicator" class="view-indicator student">Student View</span>
-            </div>
-            <div class="header-actions">
-                <!-- Theme Selector -->
-                <div class="control-group">
-                    <label for="themeSelect">Theme:</label>
-                    <select id="themeSelect">
-                        <option value="light">Light Theme</option>
-                        <option value="dark">Dark Theme</option>
-                        <option value="pastel">Pastel Theme</option>
-                    </select>
-                </div>
+<section class="hero">
+ <div class="container hero-grid">
+  <div>
+   <div class="eyebrow">Beginner-friendly • Learn by doing</div>
+   <h1>Build a <span style="color:var(--primary)">Smart Dustbin</span></h1>
+   <p class="lead">Discover how Arduino, a distance sensor, and a servo motor work together to open and close a dustbin lid automatically.</p>
+   <div class="pills"><span class="pill">📘 Simple explanations</span><span class="pill">🔧 Hands-on project</span><span class="pill">🧠 15-item assessment</span></div>
+  </div>
+  <div class="hero-art">
+   <img src="https://raw.githubusercontent.com/sindgisrishtis/Smart-Dustbin-IoT/main/circuit_diagram.jpeg" alt="Arduino Smart Dustbin project circuit and component arrangement" loading="eager" decoding="async" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1605600659873-d808a13e4d9a?auto=format&fit=crop&w=900&q=80'">
+   <p class="small muted" style="margin:8px 4px 0">Project idea: a touch-free bin that responds when a hand comes near.</p>
+  </div>
+ </div>
+</section>
 
-                <!-- Support Project Modal Trigger Button -->
-                <button id="openDonationModalBtn" class="btn btn-accent">☕ Support Us</button>
+<div class="container layout">
+ <aside class="sidebar" id="lessonSidebar" aria-label="Lesson navigation">
+  <strong>LESSON CONTENTS</strong>
+  <a class="navlink active" href="#objectives">Learning goals</a>
+  <a class="navlink" href="#arduino">What is Arduino?</a>
+  <a class="navlink" href="#project">Smart Dustbin</a>
+  <a class="navlink" href="#materials">Materials</a>
+  <a class="navlink" href="#how">How it works</a>
+  <a class="navlink" href="#circuit">Connections</a>
+  <a class="navlink" href="#code">Arduino code</a>
+  <a class="navlink" href="#demo">Try the demo</a>
+  <a class="navlink" href="#assessment">Assessment</a>
+  <a class="navlink" href="#teacher-guide-access">Google Sheets guide</a>
+ </aside>
 
-                <!-- Font Size Selector -->
-                <div class="control-group">
-                    <label for="fontSizeSelect">Text Size:</label>
-                    <select id="fontSizeSelect">
-                        <option value="font-small">Small</option>
-                        <option value="font-medium" selected>Medium</option>
-                        <option value="font-large">Large</option>
-                    </select>
-                </div>
-                <!-- Mode Toggle Button -->
-                <button id="teacherAuthBtn" class="btn btn-outline">Teacher Access</button>
-            </div>
-        </div>
+ <main>
+  <section class="section" id="objectives">
+   <h2>🎯 Learning Goals</h2>
+   <p>At the end of this lesson, you should be able to:</p>
+   <ol>
+    <li>Explain what Arduino is using your own words.</li>
+    <li>Identify the basic parts of the Smart Dustbin project.</li>
+    <li>Describe the <b>Input → Process → Output</b> cycle.</li>
+    <li>Explain how a sensor and servo motor work together.</li>
+    <li>Follow the basic steps in building and testing an Arduino project.</li>
+   </ol>
+   <div class="callout"><b>Big idea:</b> Arduino receives information, makes a decision using a program, and controls an output device.</div>
+  </section>
 
-        <nav class="nav-bar" id="mainNav">
-            <button class="nav-btn active" data-target="sec-objectives">Objectives</button>
-            <button class="nav-btn" data-target="sec-discussion">Topic Discussion</button>
-            <button class="nav-btn" data-target="sec-components">Components</button>
-            <button class="nav-btn" data-target="sec-assessment">Assessment</button>
-            <button class="nav-btn" data-target="sec-assignment">Assignment</button>
-            <button class="nav-btn" data-target="sec-references">References</button>
-            <!-- Sole Teacher Navigation Tab -->
-            <button class="nav-btn teacher-only" data-target="sec-admin" style="display:none;">Admin & Integration</button>
-        </nav>
-    </header>
+  <section class="section" id="arduino">
+   <h2>1. What is Arduino?</h2>
+   <p><b>Arduino</b> is a small electronic development board that can be programmed to control electronic components. Think of it as the <b>brain</b> of a project.</p>
+   <figure class="lesson-figure">
+    <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Arduino_Uno_-_R3.jpg" alt="Arduino Uno R3 development board" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Arduino_Uno_-_R3.jpg/800px-Arduino_Uno_-_R3.jpg'">
+    <figcaption>Arduino Uno R3: the programmable controller that receives sensor information and controls the project.</figcaption>
+   </figure>
+   <div class="cards">
+    <div class="card"><div class="emoji">👀</div><h3>Input</h3><p class="muted">A sensor detects or receives information from the environment.</p></div>
+    <div class="card"><div class="emoji">🧠</div><h3>Process</h3><p class="muted">Arduino follows the instructions in its program and decides what to do.</p></div>
+    <div class="card"><div class="emoji">⚙️</div><h3>Output</h3><p class="muted">A motor, light, buzzer, or other device performs an action.</p></div>
+   </div>
+   <p class="callout">Everyday example: a person sees a ball (input), decides to catch it (process), and moves their hands (output). Arduino projects follow a similar pattern.</p>
+  </section>
 
-    <!-- MAIN APP CONTAINER -->
-    <div class="app-container">
-        <!-- LEFT SIDEBAR -->
-        <aside id="appSidebar" class="sidebar">
-            <div class="sidebar-header">
-                <span class="sidebar-text" style="font-weight:700;">Navigation Shortcuts</span>
-                <button id="collapseSidebarBtn" class="btn btn-secondary" style="padding:0.2rem 0.5rem;">«</button>
-            </div>
-            <ul class="sidebar-menu">
-                <li><button onclick="navigateTo('sec-objectives')">🎯 <span class="sidebar-text">Curriculum Standards</span></button></li>
-                <li><button onclick="navigateTo('sec-discussion')">📖 <span class="sidebar-text">Safety & Procedures</span></button></li>
-                <li><button onclick="navigateTo('sec-components')">⚡ <span class="sidebar-text">Interactive Parts</span></button></li>
-                <li><button onclick="navigateTo('sec-assessment')">📝 <span class="sidebar-text">Knowledge Test</span></button></li>
-                <li><button onclick="openDonationModal()">☕ <span class="sidebar-text">Support Us</span></button></li>
-            </ul>
-        </aside>
+  <section class="section" id="project">
+   <h2>2. Our Project: Automatic Smart Dustbin</h2>
+   <p>A Smart Dustbin opens its lid when a hand comes close to the sensor. After a short wait, the lid closes automatically. We do not need to touch the lid.</p>
+   <img class="image" src="https://raw.githubusercontent.com/sindgisrishtis/Smart-Dustbin-IoT/main/circuit_diagram.jpeg" alt="Arduino Smart Dustbin circuit diagram showing the sensor, servo motor, and Arduino connections" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Arduino_Uno_-_R3.jpg/800px-Arduino_Uno_-_R3.jpg'">
+   <p class="small muted">Project reference image: the electronic parts work together to make the dustbin lid move automatically.</p>
+   <div class="callout"><b>Think about it:</b> Where have you seen automatic doors, faucets, or lights? They use a similar idea: detect something, process the information, and respond.</div>
+  </section>
 
-        <!-- MAIN CONTENT AREA -->
-        <main class="main-content">
+  <section class="section" id="materials">
+   <h2>3. Materials Needed</h2>
+   <p>Study the pictures below so you can recognize the main electronic parts before assembling the project.</p>
+   <div class="image-gallery">
+    <figure class="image-card"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Arduino_Uno_-_R3.jpg" alt="Arduino Uno R3 board" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Arduino_Uno_-_R3.jpg/800px-Arduino_Uno_-_R3.jpg'"><figcaption><b>Arduino Uno</b>The controller or brain of the project.</figcaption></figure>
+    <figure class="image-card"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/HC_SR04_Ultrasonic_Module.jpg" alt="HC-SR04 ultrasonic distance sensor module" loading="lazy" decoding="async" referrerpolicy="no-referrer"><figcaption><b>HC-SR04 Sensor</b>Uses sound waves to measure distance.</figcaption></figure>
+    <figure class="image-card"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Tower_Pro_SG90_micro_servo_motor.jpg" alt="SG90 micro servo motor" loading="lazy" decoding="async" referrerpolicy="no-referrer"><figcaption><b>SG90 Servo Motor</b>Turns to move the dustbin lid.</figcaption></figure>
+   </div>
+   <div class="cards">
 
-            <!-- SECTION: OBJECTIVES -->
-            <section id="sec-objectives" class="content-section active">
-                <div class="card">
-                    <h2>Targeted Competencies & Standards</h2>
-                    <p style="margin-top:0.5rem;">Unit Code: <strong>ELC724205 / TLE-IA EPAS</strong> - Test Electronic Components</p>
-                    <hr style="margin: 1rem 0; border-color: var(--border-color);">
-                    
-                    <h3>Standard Statements</h3>
-                    <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
-                        <li><strong>Content Standard:</strong> The learner demonstrates understanding of the principles, safety practices, and procedures for testing passive and active electronic components using a multimeter.</li>
-                        <li><strong>Performance Standard:</strong> The learner independently tests and evaluates resistors, capacitors, diodes, and LEDs according to standard operating procedures and technical specifications.</li>
-                    </ul>
 
-                    <h3 style="margin-top:1rem;">Bloom's Taxonomy Targeted Objectives</h3>
-                    <div class="grid-2" style="margin-top:0.5rem;">
-                        <div class="card" style="margin-bottom:0;">
-                            <h4>Cognitive (Creating)</h4>
-                            <p>Design a step-by-step diagnostic flowchart for testing resistors, capacitors, diodes, and LEDs to accurately determine operational status.</p>
-                        </div>
-                        <div class="card" style="margin-bottom:0;">
-                            <h4>Psychomotor (Origination)</h4>
-                            <p>Construct a custom component-testing bench setup using a multimeter, jumper leads, and a breadboard to efficiently evaluate components.</p>
-                        </div>
-                        <div class="card" style="margin-bottom:0;">
-                            <h4>Affective (Internalizing Values)</h4>
-                            <p>Verify the condition of each component with caution by power-checking circuits and discharging capacitors prior to measurement.</p>
-                        </div>
-                        <div class="card" style="margin-bottom:0;">
-                            <h4>Core Value (Maka-tao)</h4>
-                            <p>Display concern for others by consistently enforcing safety protocols and warning peers before handling charged capacitors or live circuits.</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
+<figure class="image-card"><img src="https://arduinogetstarted.com/images/hardware/jumper-wires-type.jpg" alt="Arduino Uno R3 board" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Arduino_Uno_-_R3.jpg/800px-Arduino_Uno_-_R3.jpg'"><figcaption><b>Jumper Wires</b>To connect from board to components</figcaption></figure>
 
-            <!-- SECTION: TOPIC DISCUSSION -->
-            <section id="sec-discussion" class="content-section">
-                <div class="card">
-                    <h2>Testing Electronic Components Guide</h2>
-                    <p>Comprehensive guide on testing Resistors, Capacitors, Diodes, LEDs, and Voltage Sources using a Digital Multimeter (DMM) and Analog Volt-Ohm-Milliammeter (VOM).</p>
+<figure class="image-card"><img src="https://etechnophiles.com/wp-content/uploads/2023/05/Jumper-Wires.jpg" alt="Arduino Uno R3 board" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Arduino_Uno_-_R3.jpg/800px-Arduino_Uno_-_R3.jpg'"><figcaption><b>Breadboard</b>Helps connect parts without soldering.</figcaption></figure>
 
-                    <div class="alert alert-info" style="margin-top:1rem;">
-                        <strong>Mandatory Safety Rules:</strong><br>
-                        1. Power Down the Circuit completely before measuring resistance, capacitance, or diodes.<br>
-                        2. Discharge Capacitors prior to touching or measuring.<br>
-                        3. Isolate Components (desolder at least one lead for accurate out-of-circuit testing).<br>
-                        4. Verify Voltmeter settings (AC vs. DC) before measuring live voltage circuits!
-                    </div>
+<figure class="image-card"><img src="https://i.ytimg.com/vi/3DQSPH2zMuc/sddefault.jpg?v=662bb422" alt="Arduino Uno R3 board" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/3DQSPH2zMuc/sddefault.jpg?v=662bb422'"><figcaption><b>Small Dustbin</b>The container with a light, movable lid.</figcaption></figure>
+    <!--<div class="card"><div class="emoji">🧩</div><h3>Breadboard</h3><p class="muted">Helps connect parts without soldering.</p></div> -->
+   </div>
+   <p class="small muted">You also need a USB cable and a computer with Arduino IDE installed.</p>
+  </section>
 
-                    <!-- HANDS-ON DIGITAL MULTIMETER SIMULATOR WIDGET -->
-                    <div class="dmm-sim-container">
-                        <h3>🧪 Hands-On Digital Multimeter Interactive Simulator</h3>
-                        <p style="font-size:0.9rem; margin:0.5rem 0 1rem 0; color:var(--text-secondary);">
-                            Select a component or voltage source to test, turn the rotary dial to the correct measurement mode, and click on the terminals to place the RED and BLACK multimeter probes!
-                        </p>
+  <section class="section" id="how">
+   <h2>4. How Does It Work?</h2>
+   <div class="steps">
+    <div class="step"><div><b>Detect:</b> The ultrasonic sensor sends sound waves and listens for the echo from an object, such as a hand.</div></div>
+    <div class="step"><div><b>Measure:</b> The sensor helps estimate how far away the hand is.</div></div>
+    <div class="step"><div><b>Decide:</b> Arduino checks the measured distance against the value in its program.</div></div>
+    <div class="step"><div><b>Move:</b> If the hand is close enough, Arduino commands the servo motor to open the lid.</div></div>
+    <div class="step"><div><b>Close:</b> The program waits, then commands the servo to return the lid to its closed position.</div></div>
+   </div>
+   <h3>Remember the three main roles</h3>
+   <table><thead><tr><th>Role</th><th>Project part</th><th>What it does</th></tr></thead><tbody>
+    <tr><td>Input</td><td>Ultrasonic sensor</td><td>Detects a nearby object and measures distance.</td></tr>
+    <tr><td>Process</td><td>Arduino Uno</td><td>Reads the measurement and follows the program.</td></tr>
+    <tr><td>Output</td><td>Servo motor</td><td>Moves the lid open or closed.</td></tr>
+   </tbody></table>
+  </section>
 
-                        <div class="dmm-layout">
-                            <!-- Left: Multimeter Body -->
-                            <div class="dmm-body">
-                                <div class="dmm-screen">
-                                    <span id="dmmModeLabel" class="dmm-screen-mode">OFF</span>
-                                    <span id="dmmDisplay">OFF</span>
-                                </div>
+  <section class="section" id="circuit">
+   <h2>5. Basic Circuit Connections</h2>
+   <p>Use this beginner connection table. Check every wire with your teacher before connecting power.</p>
+   <figure class="lesson-figure">
+    <img src="https://raw.githubusercontent.com/sindgisrishtis/Smart-Dustbin-IoT/main/circuit_diagram.jpeg" alt="Wiring diagram for Arduino Smart Dustbin with ultrasonic sensor and servo motor" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='https://commons.wikimedia.org/wiki/Special:FilePath/HC_SR04_Ultrasonic_Module.jpg'">
+    <figcaption>Study the wiring illustration together with the pin-connection table. The exact wire colors may differ between kits.</figcaption>
+   </figure>
+   <table><thead><tr><th>Component pin</th><th>Connect to Arduino</th></tr></thead><tbody>
+    <tr><td>HC-SR04 VCC</td><td>5V</td></tr><tr><td>HC-SR04 GND</td><td>GND</td></tr>
+    <tr><td>HC-SR04 TRIG</td><td>Digital pin 9</td></tr><tr><td>HC-SR04 ECHO</td><td>Digital pin 10</td></tr>
+    <tr><td>Servo signal (orange/yellow)</td><td>Digital pin 6</td></tr><tr><td>Servo VCC (red)</td><td>Suitable regulated 5V supply</td></tr>
+    <tr><td>Servo GND (brown/black)</td><td>Supply GND and Arduino GND connected together</td></tr>
+   </tbody></table>
+   <div class="callout"><b>Safety first:</b> A servo motor may draw more current than the Arduino board can safely provide. Use a suitable regulated 5V supply for the servo when needed, and connect the supply ground to Arduino GND. Do not overload the Arduino 5V pin. Ask your teacher to inspect the wiring before switching on.</div>
+  </section>
 
-                                <div class="dmm-dial-area">
-                                    <div class="dmm-dial-outer">
-                                        <!-- 12:00 O'clock: OFF -->
-                                        <span class="dmm-dial-label dmm-label-off">OFF</span>
-                                        
-                                        <!-- 2:00 O'clock: DC Voltage -->
-                                        <span class="dmm-dial-label dmm-label-dcv" title="DC Voltage">V=</span>
-                                        
-                                        <!-- 4:00 O'clock: AC Voltage -->
-                                        <span class="dmm-dial-label dmm-label-acv" title="AC Voltage">V~</span>
-                                        
-                                        <!-- 6:00 O'clock: Resistance -->
-                                        <span class="dmm-dial-label dmm-label-res"><span class="ohm-symbol">Ω</span></span>
-                                        
-                                        <!-- 8:00 O'clock: Diode Test Symbol -->
-                                        <span class="dmm-dial-label dmm-label-diode" title="Diode Test">
-                                            <svg width="22" height="16" viewBox="0 0 30 20">
-                                                <line x1="0" y1="10" x2="30" y2="10" stroke="#cbd5e1" stroke-width="2"/>
-                                                <polygon points="10,2 22,10 10,18" fill="none" stroke="#cbd5e1" stroke-width="2"/>
-                                                <line x1="22" y1="2" x2="22" y2="18" stroke="#cbd5e1" stroke-width="2"/>
-                                            </svg>
-                                        </span>
-                                        
-                                        <!-- 10:00 O'clock: Capacitance -->
-                                        <span class="dmm-dial-label dmm-label-cap">F</span>
-                                        
-                                        <div id="dmmKnob" class="dmm-dial-knob" style="transform: rotate(0deg);">
-                                            <div class="dmm-dial-indicator"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div style="font-size:0.75rem; text-align:center; color:#94a3b8; margin-top:0.25rem;">Click Dial to Switch Mode</div>
+  <section class="section" id="code">
+   <h2>6. Basic Arduino Program</h2>
+   <p>This sample opens the lid when an object is detected within 20 cm. It waits three seconds and then closes the lid.</p>
+   <div class="code-wrap">
+    <button class="btn secondary copy" type="button" onclick="copyCode()">Copy code</button>
+<pre id="arduinoCode"><code>#include &lt;Servo.h&gt;
 
-                                <div class="dmm-ports">
-                                    <div class="dmm-port-jack dmm-port-com">COM</div>
-                                    <div class="dmm-port-jack dmm-port-red">V/<span class="ohm-symbol">Ω</span></div>
-                                </div>
-                            </div>
+// Create a servo motor object
+Servo dustbinServo;
 
-                            <!-- Right: Component Testing Bench -->
-                            <div class="dmm-workbench">
-                                <div style="display:flex; gap:0.5rem; flex-wrap:wrap; align-items:center;">
-                                    <label for="dmmComponentSelect"><strong>Select Component to Test:</strong></label>
-                                    <select id="dmmComponentSelect" style="flex: 1; min-width: 200px;">
-                                        <option value="res_1k">1kΩ Resistor (Good)</option>
-                                        <option value="res_open">Resistor (Defective - Open)</option>
-                                        <option value="diode_silicon">1N4007 Silicon Diode (Good)</option>
-                                        <option value="diode_shorted">Diode (Defective - Shorted)</option>
-                                        <option value="led_red">Red LED (Good)</option>
-                                        <option value="cap_100u">100µF Electrolytic Capacitor (Good)</option>
-                                        <option value="volt_dc_9v">9V DC Battery (Voltage Source)</option>
-                                        <option value="volt_ac_220v">220V AC Outlet (AC Mains Source)</option>
-                                    </select>
-                                    <button id="resetProbesBtn" class="btn btn-secondary" style="padding:0.3rem 0.75rem; font-size:0.8rem;">Reset Probes</button>
-                                </div>
+// Assign the sensor pins
+const int trigPin = 9;
+const int echoPin = 10;
 
-                                <div class="dmm-test-bench">
-                                    <div id="compVisual" class="dmm-interactive-comp">
-                                        <!-- Rendered dynamically -->
-                                    </div>
-                                    <div id="dmmFeedback" class="alert alert-info" style="width:100%; margin-top:0.5rem; text-align:center; font-size:0.85rem;">
-                                        Set dial mode and click component terminals to connect probes.
-                                    </div>
-                                </div>
+// Assign the servo pin
+const int servoPin = 6;
 
-                                <div class="probe-status-banner">
-                                    <div><strong style="color:var(--danger);">● Red Probe (+)</strong>: <span id="redProbeStatus">Disconnected</span></div>
-                                    <div><strong style="color:#0f172a;">● Black Probe (-)</strong>: <span id="blackProbeStatus">Disconnected</span></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+// Store the measured distance
+long duration;
+int distance;
 
-                    <!-- HANDS-ON ANALOG MULTIMETER (VOM) SIMULATOR WIDGET -->
-                    <div class="vom-sim-container">
-                        <h3>📈 Interactive Analog Multimeter (VOM) Simulator Widget</h3>
-                        <p style="font-size:0.9rem; margin:0.5rem 0 1rem 0; color:var(--text-secondary);">
-                            Experience real laboratory testing with a moving-coil galvanometer needle, logarithmic resistance scales (Ω), 0-Ω ADJ zero-calibration, and multi-range multiplier selectors (R×1, R×10, R×1k, 10V DCV, 250V ACV)!
-                        </p>
+void setup() {
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
 
-                        <div class="vom-layout">
-                            <!-- Left: Analog Multimeter Body -->
-                            <div class="vom-body">
-                                <div class="vom-meter-housing">
-                                    <svg width="280" height="150" viewBox="0 0 300 160" style="background:#fefefe; border-radius:6px; width:100%; height:auto;">
-                                        <!-- Meter Face Background & Mirrored Arc Strip -->
-                                        <path d="M 30 135 A 120 120 0 0 1 270 135" fill="none" stroke="#e2e8f0" stroke-width="14"/>
-                                        <path d="M 40 130 A 110 110 0 0 1 260 130" fill="none" stroke="#cbd5e1" stroke-width="4" stroke-dasharray="2 2"/>
-                                        
-                                        <!-- Resistance Scale Arc (GREEN: Ohms logarithmic, infinity at left, 0 at right) -->
-                                        <path d="M 35 125 A 115 115 0 0 1 265 125" fill="none" stroke="#10b981" stroke-width="2.5"/>
-                                        <!-- Green Resistance Ticks & Text -->
-                                        <text x="32" y="140" font-size="9" font-weight="bold" fill="#047857">∞</text>
-                                        <text x="55" y="105" font-size="8" font-weight="bold" fill="#047857">1k</text>
-                                        <text x="80" y="80" font-size="8" font-weight="bold" fill="#047857">200</text>
-                                        <text x="115" y="60" font-size="8" font-weight="bold" fill="#047857">50</text>
-                                        <text x="147" y="52" font-size="8" font-weight="bold" fill="#047857">20</text>
-                                        <text x="180" y="60" font-size="8" font-weight="bold" fill="#047857">10</text>
-                                        <text x="215" y="80" font-size="8" font-weight="bold" fill="#047857">5</text>
-                                        <text x="242" y="105" font-size="8" font-weight="bold" fill="#047857">2</text>
-                                        <text x="264" y="140" font-size="9" font-weight="bold" fill="#047857">0</text>
-                                        <text x="270" y="48" font-size="11" font-weight="extrabold" fill="#047857">Ω</text>
+  dustbinServo.attach(servoPin);
+  dustbinServo.write(0); // Start with lid closed
 
-                                        <!-- DC Voltage / Current Scale Arc (BLACK/DARK BLUE: 0 to 10 linear) -->
-                                        <path d="M 45 130 A 105 105 0 0 1 255 130" fill="none" stroke="#0f172a" stroke-width="1.5"/>
-                                        <text x="44" y="148" font-size="8" font-weight="bold" fill="#0f172a">0</text>
-                                        <text x="88" y="102" font-size="8" font-weight="bold" fill="#0f172a">2.5</text>
-                                        <text x="147" y="75" font-size="8" font-weight="bold" fill="#0f172a">5.0</text>
-                                        <text x="206" y="102" font-size="8" font-weight="bold" fill="#0f172a">7.5</text>
-                                        <text x="250" y="148" font-size="8" font-weight="bold" fill="#0f172a">10</text>
-                                        <text x="20" y="48" font-size="9" font-weight="bold" fill="#0f172a">DC V.mA</text>
+  Serial.begin(9600);
+}
 
-                                        <!-- AC Voltage Scale Arc (RED) -->
-                                        <path d="M 55 135 A 95 95 0 0 1 245 135" fill="none" stroke="#ef4444" stroke-width="1.5"/>
-                                        <text x="54" y="154" font-size="7" font-weight="bold" fill="#dc2626">0</text>
-                                        <text x="145" y="94" font-size="7" font-weight="bold" fill="#dc2626">125V</text>
-                                        <text x="238" y="154" font-size="7" font-weight="bold" fill="#dc2626">250V</text>
-                                        <text x="135" y="115" font-size="8" font-weight="bold" fill="#dc2626">AC 250V</text>
+void loop() {
+  // Send an ultrasonic signal
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
 
-                                        <!-- Galvanometer Moving Needle -->
-                                        <g id="vomNeedleGroup" style="transform-origin: 150px 140px; transform: rotate(270deg); transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
-                                            <line x1="150" y1="140" x2="150" y2="22" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round"/>
-                                            <circle cx="150" cy="140" r="7" fill="#1e293b" stroke="#64748b" stroke-width="2"/>
-                                        </g>
-                                    </svg>
-                                </div>
+  // Receive the reflected signal
+  duration = pulseIn(echoPin, HIGH, 30000UL);
 
-                                <div class="vom-dial-controls">
-                                    <!-- Range Knob -->
-                                    <div class="vom-knob-container">
-                                        <span class="vom-knob-label">Range Selector</span>
-                                        <div id="vomKnob" class="vom-rotary-knob" style="transform: rotate(0deg);" title="Click to Switch Range">
-                                            <div class="vom-knob-pointer"></div>
-                                        </div>
-                                        <span id="vomRangeLabel" style="font-size:0.75rem; font-weight:bold; color:#f59e0b; margin-top:2px;">OFF</span>
-                                    </div>
-
-                                    <!-- 0-OHM ADJ KNOB -->
-                                    <div class="vom-knob-container">
-                                        <span class="vom-knob-label">0-Ω ADJ</span>
-                                        <div id="vomZeroAdjKnob" class="vom-zero-adj-knob" title="Click to Calibrate Zero Ohms"></div>
-                                        <span style="font-size:0.65rem; color:#cbd5e1;">Zero Calib</span>
-                                    </div>
-                                </div>
-
-                                <div class="dmm-ports" style="margin-top:0.75rem;">
-                                    <div class="dmm-port-jack dmm-port-com">COM</div>
-                                    <div class="dmm-port-jack dmm-port-red" style="background-color:var(--danger);">V-Ω-A</div>
-                                </div>
-                            </div>
-
-                            <!-- Right: Analog Workbench -->
-                            <div class="dmm-workbench">
-                                <div style="display:flex; gap:0.5rem; flex-wrap:wrap; align-items:center;">
-                                    <label for="vomComponentSelect"><strong>Select Component to Test:</strong></label>
-                                    <select id="vomComponentSelect" style="flex: 1; min-width: 200px;">
-                                        <option value="res_1k">1kΩ Resistor (Good)</option>
-                                        <option value="res_330">330Ω Resistor (Good)</option>
-                                        <option value="res_open">Resistor (Defective - Open)</option>
-                                        <option value="diode_silicon">1N4007 Silicon Diode (Good)</option>
-                                        <option value="diode_shorted">Diode (Defective - Shorted)</option>
-                                        <option value="led_red">Red LED (Good)</option>
-                                        <option value="volt_dc_9v">9V DC Battery (Voltage Source)</option>
-                                        <option value="volt_ac_220v">220V AC Outlet (AC Mains Source)</option>
-                                    </select>
-                                    <button id="resetVomProbesBtn" class="btn btn-secondary" style="padding:0.3rem 0.75rem; font-size:0.8rem;">Reset Probes</button>
-                                </div>
-
-                                <div class="dmm-test-bench">
-                                    <div id="vomCompVisual" class="dmm-interactive-comp">
-                                        <!-- Rendered dynamically -->
-                                    </div>
-                                    <div id="vomFeedback" class="alert alert-info" style="width:100%; margin-top:0.5rem; text-align:center; font-size:0.85rem;">
-                                        Select range multiplier and connect probes to calculate pointer deflection.
-                                    </div>
-                                </div>
-
-                                <div class="probe-status-banner">
-                                    <div><strong style="color:var(--danger);">● Red Probe (+)</strong>: <span id="vomRedStatus">Disconnected</span></div>
-                                    <div><strong style="color:#0f172a;">● Black Probe (-)</strong>: <span id="vomBlackStatus">Disconnected</span></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <h3>1. Resistor Diagnostics</h3>
-                    <p>Resistors limit current (R = V/I). Check color codes or SMD labels for nominal value and tolerance.</p>
-                    <ul>
-                        <li>Set DMM to Resistance (<span class="ohm-symbol">Ω</span>). Touch probes to leads (non-polar).</li>
-                        <li><strong>Good:</strong> Reading within tolerance (e.g., <strong>1 k<span class="ohm-symbol">Ω</span> ± 5% = 950 <span class="ohm-symbol">Ω</span> – 1050 <span class="ohm-symbol">Ω</span></strong>).</li>
-                        <li><strong>Defective:</strong> Displays <code>OL</code> (Open) or drifted significantly higher due to thermal degradation.</li>
-                    </ul>
-
-                    <h3 style="margin-top:1rem;">2. Capacitor Diagnostics</h3>
-                    <p>Capacitors store electrical energy electrostatically and filter power line noise. Discharge fully before testing!</p>
-                    <ul>
-                        <li><strong>Capacitance Mode:</strong> Connect red probe to positive anode (longer lead) and black to cathode. Confirm value within ±20% of rated value in Farads (<span class="unit-badge">F</span> / <span class="unit-badge">µF</span>).</li>
-                        <li><strong>Resistance Mode Charging Check:</strong> Set to high resistance (100 k<span class="ohm-symbol">Ω</span>). Probe should show low resistance, then steadily rise toward infinity (<code>OL</code>) as the meter battery charges the dielectric.</li>
-                    </ul>
-
-                    <h3 style="margin-top:1rem;">3. Diode & LED Diagnostics</h3>
-                    <p>One-way semiconductor gates. Set DMM to Diode Mode <span class="diode-mode-symbol"><svg width="18" height="12" viewBox="0 0 30 20" style="vertical-align:middle;"><line x1="0" y1="10" x2="30" y2="10" stroke="var(--primary)" stroke-width="2"/><polygon points="10,2 22,10 10,18" fill="var(--primary)" stroke="var(--primary)" stroke-width="2"/><line x1="22" y1="2" x2="22" y2="18" stroke="var(--primary)" stroke-width="3"/></svg> |</span>.</p>
-                    <ul>
-                        <li><strong>Forward Bias (Red to Anode, Black to Cathode):</strong> Silicon diodes drop <strong>0.5 V – 0.7 V</strong>; Schottky diodes drop <strong>0.15 V – 0.4 V</strong>; LEDs drop <strong>1.8 V – 3.5 V</strong> and glow faintly.</li>
-                        <li><strong>Reverse Bias (Red to Cathode, Black to Anode):</strong> Must read <code>OL</code> (Over Limit). Reading a low voltage drop in reverse bias indicates a shorted or leaky semiconductor junction.</li>
-                    </ul>
-                </div>
-            </section>
-
-            <!-- SECTION: INTERACTIVE COMPONENTS (ENHANCED OHM'S LAW, CAPACITOR & LED ELECTRONIC SYMBOLS) -->
-            <section id="sec-components" class="content-section">
-                <h2>Interactive Component Library</h2>
-                <p style="margin-bottom: 1rem; color: var(--text-secondary);">High-definition realistic physical components accompanied by standard electrical schematic symbols.</p>
-                
-                <div class="grid-2">
-                    
-                    <!-- Resistor Card -->
-                    <div class="component-card">
-                        <h3>Resistor</h3>
-                        <p><strong>Function:</strong> Limits current and drops voltage in a circuit.</p>
-                        <p><strong>Unit:</strong> Ohms (<span class="ohm-symbol">Ω</span>)</p>
-                        
-                        <div class="svg-icon-dual">
-                            <div class="diagram-box">
-                                <span class="diagram-label">Physical Component</span>
-                                <svg width="150" height="50" viewBox="0 0 150 50">
-                                    <line x1="0" y1="25" x2="30" y2="25" stroke="#94a3b8" stroke-width="4"/>
-                                    <line x1="120" y1="25" x2="150" y2="25" stroke="#94a3b8" stroke-width="4"/>
-                                    <rect x="30" y="10" width="90" height="30" rx="6" fill="#e0cb97" stroke="#b48843" stroke-width="2"/>
-                                    <!-- 390 Ohm 5% Bands: Orange, White, Brown, Gold -->
-                                    <rect x="45" y="10" width="6" height="30" fill="#f97316"/>
-                                    <rect x="58" y="10" width="6" height="30" fill="#ffffff"/>
-                                    <rect x="71" y="10" width="6" height="30" fill="#78350f"/>
-                                    <rect x="98" y="10" width="6" height="30" fill="#d97706"/>
-                                </svg>
-                            </div>
-                            <div class="diagram-box">
-                                <span class="diagram-label">Schematic Symbol</span>
-                                <svg width="130" height="50" viewBox="0 0 130 50">
-                                    <path d="M 5 25 L 25 25 L 32 12 L 46 38 L 60 12 L 74 38 L 88 12 L 95 25 L 125 25" stroke="var(--primary)" stroke-width="3" fill="none"/>
-                                </svg>
-                            </div>
-                        </div>
-
-                        <p><strong>Calculation Example (Ohm's Law):</strong></p>
-                        <p>To limit current to <strong>10 mA</strong> (0.010 A) from a <strong>5V DC</strong> supply for a <strong>2V</strong> drop requirement:</p>
-                        
-                        <div class="formula-box">
-                            R = (V<sub>supply</sub> - V<sub>drop</sub>) / I<br>
-                            R = (5V - 2V) / 0.010A = 300 <span class="ohm-symbol">Ω</span>
-                        </div>
-                        <p style="font-size: 0.85rem; color: var(--text-secondary);">(Select standard <strong>330 <span class="ohm-symbol">Ω</span></strong> or <strong>390 <span class="ohm-symbol">Ω</span></strong> resistor).</p>
-                    </div>
-
-                    <!-- Capacitor Card -->
-                    <div class="component-card">
-                        <h3>Capacitor (Electrolytic) ⚡</h3>
-                        <p><strong>Function:</strong> Stores energy electrostatically; filters power noise and smooths ripple voltages in DC power supplies.</p>
-                        <p><strong>Unit:</strong> Farads (<span class="unit-badge">F</span> / Microfarads <span class="unit-badge">µF</span>)</p>
-                        
-                        <div class="svg-icon-dual">
-                            <div class="diagram-box">
-                                <span class="diagram-label">Physical Component</span>
-                                <svg width="150" height="55" viewBox="0 0 150 55">
-                                    <line x1="0" y1="27" x2="40" y2="27" stroke="#94a3b8" stroke-width="4"/>
-                                    <line x1="110" y1="27" x2="150" y2="27" stroke="#94a3b8" stroke-width="4"/>
-                                    <rect x="40" y="8" width="70" height="38" rx="4" fill="#0284c7" stroke="#0369a1" stroke-width="2"/>
-                                    <rect x="92" y="8" width="18" height="38" fill="#e2e8f0"/>
-                                    <text x="98" y="22" font-size="10" font-weight="bold" fill="#0f172a">-</text>
-                                    <text x="98" y="38" font-size="10" font-weight="bold" fill="#0f172a">-</text>
-                                </svg>
-                            </div>
-                            <div class="diagram-box">
-                                <span class="diagram-label">Schematic Symbol</span>
-                                <svg width="130" height="50" viewBox="0 0 130 50">
-                                    <line x1="5" y1="25" x2="55" y2="25" stroke="var(--primary)" stroke-width="3"/>
-                                    <line x1="55" y1="10" x2="55" y2="40" stroke="var(--primary)" stroke-width="4"/>
-                                    <path d="M 70 10 Q 64 25 70 40" stroke="var(--primary)" stroke-width="4" fill="none"/>
-                                    <line x1="68" y1="25" x2="125" y2="25" stroke="var(--primary)" stroke-width="3"/>
-                                    <text x="40" y="16" font-size="12" font-weight="bold" fill="var(--primary)">+</text>
-                                </svg>
-                            </div>
-                        </div>
-
-                        <p><strong>Key Note:</strong> Polarized electrolytic capacitors have a longer lead for Anode (+) and a broad stripe for Cathode (-).</p>
-                    </div>
-
-                    <!-- Diode Card -->
-                    <div class="component-card">
-                        <h3>Diode (Rectifier)</h3>
-                        <p><strong>Function:</strong> One-way semiconductor gates allowing current to flow in forward bias direction only.</p>
-                        <p><strong>Polarity:</strong> Anode (+) and Cathode (-)</p>
-                        
-                        <div class="svg-icon-dual">
-                            <div class="diagram-box">
-                                <span class="diagram-label">Physical Component</span>
-                                <svg width="150" height="50" viewBox="0 0 150 50">
-                                    <line x1="0" y1="25" x2="35" y2="25" stroke="#94a3b8" stroke-width="4"/>
-                                    <line x1="115" y1="25" x2="150" y2="25" stroke="#94a3b8" stroke-width="4"/>
-                                    <rect x="35" y="10" width="80" height="30" rx="3" fill="#1e293b" stroke="#0f172a" stroke-width="2"/>
-                                    <rect x="98" y="10" width="12" height="30" fill="#e2e8f0"/>
-                                </svg>
-                            </div>
-                            <div class="diagram-box">
-                                <span class="diagram-label">Schematic Symbol</span>
-                                <svg width="130" height="50" viewBox="0 0 130 50">
-                                    <line x1="5" y1="25" x2="125" y2="25" stroke="var(--primary)" stroke-width="3"/>
-                                    <polygon points="45,10 80,25 45,40" fill="none" stroke="var(--primary)" stroke-width="3"/>
-                                    <line x1="80" y1="10" x2="80" y2="40" stroke="var(--primary)" stroke-width="4"/>
-                                </svg>
-                            </div>
-                        </div>
-
-                        <p><strong>Application:</strong> Rectification (AC to DC conversion) and reverse-polarity protection.</p>
-                    </div>
-
-                    <!-- LED Card -->
-                    <div class="component-card">
-                        <h3>Light Emitting Diode (LED) 💡</h3>
-                        <p><strong>Function:</strong> Emits light electro-luminescently when electric current flows through its PN junction in forward bias.</p>
-                        <p style="margin-top:0.4rem;"><strong>Forward Voltage Drop (V<sub>f</sub>):</strong></p>
-                        <ul style="margin-left: 1.25rem; font-size: 0.9rem;">
-                            <li>🔴 🟡 <strong>Red / Yellow:</strong> 1.8V – 2.2V</li>
-                            <li>🔵 ⚪ <strong>Blue / White:</strong> 3.0V – 3.6V</li>
-                        </ul>
-                        
-                        <div class="svg-icon-dual">
-                            <div class="diagram-box">
-                                <span class="diagram-label">Physical Component</span>
-                                <svg width="150" height="55" viewBox="0 0 150 55">
-                                    <line x1="0" y1="27" x2="50" y2="27" stroke="#94a3b8" stroke-width="4"/>
-                                    <line x1="100" y1="27" x2="150" y2="27" stroke="#94a3b8" stroke-width="4"/>
-                                    <path d="M 50 12 L 90 12 C 108 12, 108 42, 90 42 L 50 42 Z" fill="rgba(239, 68, 68, 0.85)" stroke="#dc2626" stroke-width="2"/>
-                                    <path d="M 58 20 L 72 20 L 76 28 L 58 28 Z" fill="#e2e8f0"/>
-                                </svg>
-                            </div>
-                            <div class="diagram-box">
-                                <span class="diagram-label">Schematic Symbol</span>
-                                <svg width="130" height="50" viewBox="0 0 130 50">
-                                    <line x1="5" y1="25" x2="125" y2="25" stroke="var(--primary)" stroke-width="3"/>
-                                    <polygon points="45,10 80,25 45,40" fill="none" stroke="var(--primary)" stroke-width="3"/>
-                                    <line x1="80" y1="10" x2="80" y2="40" stroke="var(--primary)" stroke-width="4"/>
-                                    <path d="M 65 10 L 78 0 M 78 0 L 73 4 M 78 0 L 74 -3" stroke="var(--accent)" stroke-width="2"/>
-                                    <path d="M 75 16 L 88 6 M 88 6 L 83 10 M 88 6 L 84 3" stroke="var(--accent)" stroke-width="2"/>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </section>
-
-            <!-- SECTION: ASSESSMENT (PROTECTED BY ACCESS CODE) -->
-            <section id="sec-assessment" class="content-section">
-                <!-- Lock Panel -->
-                <div id="assessmentLockPanel" class="card text-center" style="max-width:500px; margin: 2rem auto;">
-                    <h2>Protected Knowledge Assessment</h2>
-                    <p style="margin: 1rem 0;">Enter the assessment access code provided by your teacher to unlock the 15-item evaluation.</p>
-                    <div style="margin-bottom:1rem;">
-                        <input type="password" id="assessCodeInput" placeholder="Enter Access Code" style="width:100%; max-width:300px;">
-                    </div>
-                    <div>
-                        <button id="unlockAssessmentBtn" class="btn btn-primary">Unlock Assessment</button>
-                    </div>
-                    <div id="assessCodeErr" class="alert alert-error" style="display:none; margin-top:1rem;"></div>
-                </div>
-
-                <!-- Unlocked Content -->
-                <div id="assessmentContent" class="card protected-blur" style="display:none;">
-                    <h2>Component Testing Assessment (15 Items)</h2>
-                    <p>Complete all identity information and answer every item carefully.</p>
-                    <hr style="margin: 1rem 0; border-color: var(--border-color);">
-
-                    <form id="assessmentForm">
-                        <div class="grid-2" style="margin-bottom:1.5rem;">
-                            <div>
-                                <label for="studName"><strong>Full Name: *</strong></label>
-                                <input type="text" id="studName" required style="width:100%;">
-                            </div>
-                            <div>
-                                <label for="studGrade"><strong>Grade Level: *</strong></label>
-                                <input type="text" id="studGrade" required style="width:100%;">
-                            </div>
-                            <div>
-                                <label for="studSection"><strong>Section: *</strong></label>
-                                <input type="text" id="studSection" required style="width:100%;">
-                            </div>
-                        </div>
-
-                        <!-- Questions Container -->
-                        <div id="questionsContainer"></div>
-
-                        <div style="margin-top: 2rem; text-align: center;">
-                            <button type="submit" id="submitAssessmentBtn" class="btn btn-primary" style="padding:0.75rem 2rem; font-size:1.1rem;">Submit Assessment</button>
-                        </div>
-                    </form>
-                </div>
-            </section>
-
-            <!-- SECTION: ASSIGNMENT -->
-            <section id="sec-assignment" class="content-section">
-                <div class="card">
-                    <h2>Post-Lesson Assignment Options</h2>
-                    <p>Select one of the following assignments based on your study plan:</p>
-
-                    <div class="card" style="margin-top:1rem;">
-                        <h3>Option 1: Reinforcing (Detective Journal)</h3>
-                        <p>Locate a discarded electronics board at home. Visual-spot 2 components, then write a 3-5 sentence diagnostic plan detailing DMM modes you would use to test them out-of-circuit.</p>
-                    </div>
-
-                    <div class="card">
-                        <h3>Option 2: Enriching (Real-World Failure Reflection)</h3>
-                        <p>Interview a local repair technician or research online a device that failed due to a single burnt component. Reflect in 1 paragraph on how simple diagnostic skill prevents e-waste.</p>
-                    </div>
-
-                    <div class="card">
-                        <h3>Option 3: Enhancing (Technician Cheatsheet)</h3>
-                        <p>Create a pocket index card listing the 4 components, polarity rules, DMM settings, and GOOD vs. DEFECTIVE reading benchmarks.</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- SECTION: REFERENCES -->
-            <section id="sec-references" class="content-section">
-                <div class="card">
-                    <h2>References & Bibliography</h2>
-                    <ol style="margin-left:1.5rem; line-height:1.8;">
-                        <li>Boylestad, R. L., & Nashelsky, L. (2013). <em>Electronic Devices and Circuit Theory</em> (11th ed.). Pearson.</li>
-                        <li>DepEd Philippines. (2016). <em>EPAS Curriculum Guide</em>. Department of Education.</li>
-                        <li>Floyd, T. L. (2017). <em>Electronic Devices</em> (10th ed.). Pearson.</li>
-                        <li>GroB, B., & Schultz, M. E. (2015). <em>Grob's Basic Electronics</em> (12th ed.). McGraw-Hill.</li>
-                        <li>TESDA. (2019). <em>Training Regulations for EPAS NC II (Unit Code: ELC724205)</em>.</li>
-                    </ol>
-                </div>
-            </section>
-
-            <!-- TEACHER CONSOLIDATED SECTION: ADMIN & INTEGRATION -->
-            <section id="sec-admin" class="content-section teacher-only" style="display:none;">
-                
-                <!-- 1. PROTECTED ANSWER KEY & ITEM ANALYSIS -->
-                <div class="card">
-                    <h2>Protected Answer Key & Item Analysis</h2>
-                    <p style="margin-bottom:1rem; color:var(--text-secondary);">Authorized Teacher Session Active.</p>
-
-                    <h3>Item Analysis Matrix</h3>
-                    <div class="table-wrapper">
-                        <table>
-                            <thead>
-                                <tr><th>Item</th><th>Competency Targeted</th><th>Bloom Level</th><th>Key</th></tr>
-                            </thead>
-                            <tbody id="itemMatrixBody">
-                                <!-- Populated dynamically by JavaScript -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- 2. GOOGLE SHEETS ASSESSMENT SCORE DATASET SHORTCUT -->
-                <div class="card" style="background-color:var(--primary-light); border:1px solid var(--primary);">
-                    <h3 style="color:var(--primary); margin-bottom:0.5rem;">📊 Google Sheets Assessment Score Dataset</h3>
-                    <p style="font-size:0.9rem; margin-bottom:1rem;">Access real-time recorded student submissions (Student Name, Grade Level, Section, Score, Total Items, Percentage, and Timestamps):</p>
-                    <div id="sheetsLinkContainer">
-                        <!-- Populated dynamically by JavaScript -->
-                    </div>
-                </div>
-
-                <!-- 3. ADMINISTRATOR & INTEGRATION PANEL (FULL ADMIN P@55w0rd ONLY) -->
-                <div id="adminPanelControls" class="card admin-only-block" style="margin-top:1.5rem; display:none;">
-                    <h2>Administrator & Integration Panel</h2>
-                    <p>Configure Google Apps Script Web App Endpoint for Sheets Data Recording.</p>
-                    <hr style="margin:1rem 0; border-color:var(--border-color);">
-                    
-                    <!-- Endpoint URL Config Input -->
-                    <div style="margin-bottom:1.5rem; background-color:var(--bg-tertiary); padding:1rem; border-radius:8px;">
-                        <label for="endpointInput"><strong>Google Apps Script Web App Deployment URL:</strong></label>
-                        <input type="text" id="endpointInput" placeholder="https://script.google.com/macros/s/.../exec" style="width:100%; margin-top:0.5rem;">
-                        <button id="saveEndpointBtn" class="btn btn-primary" style="margin-top:0.5rem;">Save Endpoint Configuration</button>
-                    </div>
-
-                    <!-- COMPLETE STEP-BY-STEP INTEGRATION TUTORIAL -->
-                    <h3>Google Apps Script Web App Setup Guide</h3>
-                    <p style="margin-bottom:1rem;">Follow these step-by-step instructions to create your Google Sheets backend database:</p>
-
-                    <ol style="margin-left:1.5rem; line-height:1.8;">
-                        <li><strong>Create Spreadsheet:</strong> Go to <a href="https://sheets.google.com" target="_blank" style="color:var(--primary);">Google Sheets</a> and create a new blank spreadsheet. Name it <code>Electronic Components Assessment Data</code>.</li>
-                        <li><strong>Open Apps Script Editor:</strong> Click <strong>Extensions</strong> → <strong>Apps Script</strong> in the top menu bar.</li>
-                        <li><strong>Paste Script Code:</strong> Erase all existing code in the editor and copy-paste the exact Google Apps Script backend code provided below.</li>
-                        <li><strong>Deploy as Web App:</strong>
-                            <ul>
-                                <li>Click <strong>Deploy</strong> (top-right blue button) → <strong>New deployment</strong>.</li>
-                                <li>Select type: <strong>Web app</strong> (gear icon).</li>
-                                <li>Description: <code>Electronic Components Endpoint V1</code>.</li>
-                                <li>Execute as: <strong>Me</strong> (your Google account).</li>
-                                <li>Who has access: <strong>Anyone</strong> (allows students to post assessment scores without requiring a Google account).</li>
-                            </ul>
-                        </li>
-                        <li><strong>Copy Web App URL:</strong> Click <strong>Deploy</strong>, grant account permissions, and copy the generated <code>Web App URL</code> (ends with <code>/exec</code>).</li>
-                        <li><strong>Bind Endpoint:</strong> Paste the copied URL into the <strong>Google Apps Script Web App Deployment URL</strong> field above and click <strong>Save Endpoint Configuration</strong>.</li>
-                    </ol>
-
-                    <!-- EMBEDDED GOOGLE APPS SCRIPT BACKEND CODE FOR DIRECT COPYING -->
-                    <h3 style="margin-top:1.5rem;">Backend Source Code (`Code.gs`)</h3>
-                    <p style="margin-bottom:0.5rem;">Copy this complete code into your Google Apps Script editor:</p>
-                    <button id="copyScriptBtn" class="btn btn-secondary" style="margin-bottom:0.5rem;" onclick="copyBackendCode()">Copy Script Code</button>
-                    
-                    <pre class="code-block" id="scriptCodeBlock">
-/**
- * ==============================================================================
- * GOOGLE APPS SCRIPT BACKEND SERVICE
- * Handles Assessment Submissions and Voluntary Donation Records with
- * Idempotency Locking to prevent duplicate records.
- * ==============================================================================
- */
-
-// Global Worksheet Tab Names
-const TAB_ASSESSMENT = "AssessmentSubmissions";
-const TAB_DONATION = "DonationRecords";
-
-/**
- * Handles incoming POST requests from the Educational Web Application.
- */
-function doPost(e) {
-  const lock = LockService.getScriptLock();
-  // Acquire lock with 10-second timeout to handle concurrent requests safely
-  try {
-    lock.waitLock(10000);
-  } catch (err) {
-    return createJsonResponse({ status: "error", message: "Server busy. Please try submitting again." });
+  // Convert the signal into centimeters
+  if (duration == 0) {
+    distance = 0; // No valid echo received
+  } else {
+    distance = duration * 0.034 / 2;
   }
 
+  Serial.println(distance);
+
+  // Open only when a valid distance is 20 cm or less
+  if (distance > 0 && distance <= 20) {
+    dustbinServo.write(90); // Open lid
+    delay(3000);            // Wait 3 seconds
+    dustbinServo.write(0);  // Close lid
+  }
+
+  delay(100);
+}</code></pre>
+   </div>
+   <details><summary>What do the important code words mean?</summary>
+    <ul>
+     <li><code>pinMode()</code> sets a pin as INPUT or OUTPUT.</li>
+     <li><code>digitalWrite()</code> sends a HIGH or LOW signal.</li>
+     <li><code>pulseIn()</code> measures how long a signal stays HIGH.</li>
+     <li><code>if</code> checks whether a condition is true.</li>
+     <li><code>servo.write(90)</code> tells the servo to move to a position of 90 degrees.</li>
+     <li><code>delay(3000)</code> pauses the program for 3,000 milliseconds (3 seconds).</li>
+    </ul>
+   </details>
+   <div class="callout"><b>Servo adjustment:</b> The 0° and 90° positions are starting examples. Adjust them to match the hinge and linkage of your actual lid. This simple program closes after three seconds even if a hand remains nearby.</div>
+   <h3>How to upload the program</h3>
+   <div class="image-gallery">
+    <figure class="image-card"><img class="image-cover" src="https://docs.arduino.cc/static/arduino-ide-2-ide.png" alt="Arduino IDE programming environment" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://www.best-microcontroller-projects.com/image-files/arduino-boards-manager-uno-2-1-0-enh.jpg'"><figcaption><b>Arduino IDE</b>Write and check your Arduino program.</figcaption></figure>
+    <figure class="image-card"><img class="image-cover" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcY4M5orbKf-E-VPrkcpgf4cj_DKfvWDqyrAXVh4MkHOZ3rbAiKpX5GiM&s=10" loading="lazy" decoding="async"><figcaption><b>Connect the board</b>Use a USB cable to connect Arduino to the computer.</figcaption></figure>
+    <figure class="image-card"><img class="image-cover" src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80" alt="Electronics project testing" loading="lazy" decoding="async"><figcaption><b>Test safely</b>Check the circuit and observe the project response.</figcaption></figure>
+   </div>
+   <ol><li>Install and open Arduino IDE on the computer.</li><li>Connect the Arduino Uno using a USB cable.</li><li>Select <b>Tools → Board → Arduino Uno</b>.</li><li>Select the correct USB port under <b>Tools → Port</b>.</li><li>Paste the code and click <b>Verify</b> (✓).</li><li>Click <b>Upload</b> (→), then test the sensor.</li></ol>
+
+   <!-- Added PowerPoint-style visual walkthrough. Existing upload instructions above are intentionally retained. -->
+   <div class="upload-presentation" id="uploadPresentation" aria-label="PowerPoint-style presentation: How to upload an Arduino program">
+    <div class="upload-presentation-header">
+     <h3>🎞️ Visual Presentation: How to Upload a Program to Arduino</h3>
+     <p>Imagine that you are sending instructions from your computer to the brain of the Smart Dustbin. Follow one slide at a time.</p>
+    </div>
+
+    <article class="upload-slide active" data-upload-slide="0" aria-hidden="false">
+     <div class="upload-slide-copy">
+      <span class="slide-kicker">Slide 1 • The big idea</span>
+      <h4>What does “upload a program” mean?</h4>
+      <p>Uploading means <b>sending the instructions from the computer into the Arduino board</b>. The Arduino then remembers those instructions and follows them when it has power.</p>
+      <ol><li><b>Computer:</b> where we write the instructions.</li><li><b>USB cable:</b> the pathway that carries the program.</li><li><b>Arduino Uno:</b> receives and runs the program.</li></ol>
+      <div class="upload-slide-note">Think of it like sending a message to a friend: the computer sends the instructions, and Arduino receives the message.</div>
+     </div>
+     <figure class="upload-slide-visual"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Arduino_Uno_-_R3.jpg" alt="Arduino Uno R3 board that receives the uploaded program" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Arduino_Uno_-_R3.jpg/800px-Arduino_Uno_-_R3.jpg'"><figcaption>Arduino Uno: the small programmable board that will receive our instructions.</figcaption></figure>
+    </article>
+
+    <article class="upload-slide" data-upload-slide="1" aria-hidden="true">
+     <div class="upload-slide-copy">
+      <span class="slide-kicker">Slide 2 • Prepare the computer</span>
+      <h4>Open the Arduino IDE</h4>
+      <p><b>Arduino IDE</b> is the computer program where we type, check, and send our Arduino code. IDE means Integrated Development Environment.</p>
+      <ol><li>Turn on the computer.</li><li>Find and open <b>Arduino IDE</b>.</li><li>Open the Smart Dustbin program or paste the complete code into the editor.</li><li>Look at the code before sending it to the board.</li></ol>
+      <div class="upload-slide-note">The code is also called a <b>sketch</b> in Arduino. A sketch is simply a program written for an Arduino board.</div>
+     </div>
+     <figure class="upload-slide-visual"><img src="https://docs.arduino.cc/static/arduino-ide-2-ide.png" alt="Arduino IDE computer programming environment" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='https://www.best-microcontroller-projects.com/image-files/arduino-boards-manager-uno-2-1-0-enh.jpg'"><figcaption>Arduino IDE: the workspace where the program is written and uploaded.</figcaption></figure>
+    </article>
+
+    <article class="upload-slide" data-upload-slide="2" aria-hidden="true">
+     <div class="upload-slide-copy">
+      <span class="slide-kicker">Slide 3 • Connect the board</span>
+      <h4>Connect Arduino to the computer using USB</h4>
+      <ol><li>Find the USB connector on the Arduino Uno.</li><li>Connect the correct USB cable to the Arduino.</li><li>Connect the other end to the computer.</li><li>Check that the Arduino power light turns on.</li></ol>
+      <p>The USB cable allows the computer and Arduino to communicate. It may also provide power to the board.</p>
+      <div class="upload-slide-note"><b>Important:</b> Use a USB cable that can transfer data, not a charge-only cable. If the computer does not detect the board, ask your teacher to check the cable and USB port.</div>
+     </div>
+     <figure class="upload-slide-visual"><img src="https://images.unsplash.com/photo-1581092921461-eab62e97a780?auto=format&fit=crop&w=900&q=80" alt="Electronics development workspace representing connecting an Arduino board to a computer" loading="lazy" decoding="async"><figcaption>Connect the board to the computer with a compatible USB data cable.</figcaption></figure>
+    </article>
+
+    <article class="upload-slide" data-upload-slide="3" aria-hidden="true">
+     <div class="upload-slide-copy">
+      <span class="slide-kicker">Slide 4 • Choose the correct board</span>
+      <h4>Tell the IDE which Arduino board you are using</h4>
+      <p>The computer must know the exact type of Arduino board so it can prepare the program correctly.</p>
+      <ol><li>On the menu, click <b>Tools</b>.</li><li>Choose <b>Board</b>.</li><li>Choose <b>Arduino AVR Boards</b>, if shown.</li><li>Click <b>Arduino Uno</b>.</li></ol>
+      <p>In Arduino IDE 2, you may also use the board selector near the top of the window. The layout can look a little different depending on the IDE version.</p>
+      <div class="upload-slide-note">For this lesson, our board is <b>Arduino Uno</b>. Do not select Arduino Nano, Mega, or another board by mistake.</div>
+     </div>
+     <figure class="upload-slide-visual"><img src="https://images.openai.com/static-rsc-4/qnpom6fQfDbUkEaywviIHeK_p7NpZByayZVqNB67KwmUbbZhQsLOAoQNxcLfZlAsOPei6oLj9oiRuC5OCFMZOmYwWiI21L33Q7LFR_i1aMr_E67a4hMb2g9MJusAyAG8DYi6b1YrnWuFTa5Ms08dRG2ElK53FwncxoFt67sVuSzUdch6BMd4OlLE262iMee3?purpose=fullsize" alt="Arduino Uno R3 board selected as the target board" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Arduino_Uno_-_R3.jpg/800px-Arduino_Uno_-_R3.jpg'"><figcaption>Choose Arduino Uno because that is the board used in our Smart Dustbin lesson.</figcaption></figure>
+    </article>
+
+    <article class="upload-slide" data-upload-slide="4" aria-hidden="true">
+     <div class="upload-slide-copy">
+      <span class="slide-kicker">Slide 5 • Choose the USB port</span>
+      <h4>Select the port connected to your Arduino</h4>
+      <p>A <b>port</b> is the computer's connection number for the USB device. On Windows, it often appears as <span class="upload-code-chip">COM3</span>, <span class="upload-code-chip">COM4</span>, or another COM number.</p>
+      <ol><li>Click <b>Tools</b>.</li><li>Choose <b>Port</b>.</li><li>Look for the port that appears when your Arduino is connected.</li><li>Select that port, for example <b>COM3 (Arduino Uno)</b>.</li></ol>
+      <div class="upload-slide-note">Your COM number may be different. If no port appears, check the USB data cable, reconnect the board, and ask your teacher for help. Do not guess the port.</div>
+     </div>
+     <figure class="upload-slide-visual"><div class="upload-visual-placeholder" aria-hidden="true">🔌<div><strong>USB port selected</strong><span style="display:block;font-size:1rem;color:var(--muted)">Example: COM3 (Arduino Uno)</span></div></div><figcaption>Example only: the actual COM number depends on the computer.</figcaption></figure>
+    </article>
+
+    <article class="upload-slide" data-upload-slide="5" aria-hidden="true">
+     <div class="upload-slide-copy">
+      <span class="slide-kicker">Slide 6 • Check before sending</span>
+      <h4>Click Verify first (✓)</h4>
+      <p><b>Verify</b> asks the IDE to check and prepare your code. It looks for programming mistakes and converts the sketch into a form the Arduino can understand.</p>
+      <ol><li>Click the <b>checkmark (✓)</b> button.</li><li>Wait while the IDE checks the code.</li><li>If it says compilation is complete or shows a successful result, continue.</li><li>If red error messages appear, stop and ask your teacher to help correct them.</li></ol>
+      <div class="upload-slide-note"><b>Remember:</b> Verify checks the program. It does <b>not</b> send the program to the Arduino yet.</div>
+     </div>
+     <figure class="upload-slide-visual"><div class="upload-visual-placeholder" aria-hidden="true">✓<div><strong>VERIFY = CHECK THE CODE</strong><span style="display:block;font-size:1rem;color:var(--muted)">Find mistakes before uploading</span></div></div><figcaption>The checkmark is the Verify action in Arduino IDE.</figcaption></figure>
+    </article>
+
+    <article class="upload-slide" data-upload-slide="6" aria-hidden="true">
+     <div class="upload-slide-copy">
+      <span class="slide-kicker">Slide 7 • Send the program</span>
+      <h4>Click Upload (→) and wait for success</h4>
+      <ol><li>Click the <b>right-arrow (→) Upload</b> button.</li><li>The IDE checks the code again and sends it through the USB cable.</li><li>Wait. Do not unplug the USB cable while uploading.</li><li>Look for a message such as <b>Done uploading</b>.</li><li>Now Arduino can run the uploaded program.</li></ol>
+      <div class="upload-slide-note"><b>What happens next?</b> The Arduino follows the instructions: the ultrasonic sensor detects a nearby hand, and the servo motor moves the dustbin lid. Ask your teacher to check the circuit and power before testing.</div>
+     </div>
+     <figure class="upload-slide-visual"><img src="https://europe1.discourse-cdn.com/arduino/original/4X/3/6/a/36a0534155b600f9678ce1771b6cf36c1856cac9.jpeg" alt="Arduino Smart Dustbin circuit showing the Arduino, ultrasonic sensor, and servo motor" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='https://commons.wikimedia.org/wiki/Special:FilePath/Arduino_Uno_-_R3.jpg'"><figcaption>After uploading, Arduino runs the Smart Dustbin instructions with the connected sensor and servo motor.</figcaption></figure>
+    </article>
+
+    <article class="upload-slide" data-upload-slide="7" aria-hidden="true">
+     <div class="upload-slide-copy">
+      <span class="slide-kicker">Slide 8 • Observe and test</span>
+      <h4>Test the Smart Dustbin with your teacher</h4>
+      <ol><li>Keep hands clear of moving parts while checking the lid.</li><li>Ask your teacher to confirm the wiring and safe power supply.</li><li>Move your hand near the ultrasonic sensor.</li><li>Observe whether the servo opens the lid.</li><li>Wait and observe whether the lid closes.</li></ol>
+      <p>If it does not work, do not pull wires while the circuit is powered. Turn off or disconnect power with teacher supervision, then check the wiring, code, board, and port.</p>
+      <div class="upload-slide-note"><b>You did it!</b> You have learned the basic journey: WRITE → CONNECT → SELECT BOARD → SELECT PORT → VERIFY → UPLOAD → TEST.</div>
+     </div>
+     <figure class="upload-slide-visual"><img src="https://i.ytimg.com/vi/whoqckyTrw0/maxresdefault.jpg" alt="HC-SR04 ultrasonic distance sensor used to detect a hand near the dustbin" loading="lazy" decoding="async" referrerpolicy="no-referrer"><figcaption>The ultrasonic sensor detects the hand; Arduino processes the distance and controls the servo motor.</figcaption></figure>
+    </article>
+
+    <div class="upload-slide-progress" aria-hidden="true"><span id="uploadSlideProgress"></span></div>
+    <div class="upload-slide-controls">
+     <button class="btn secondary" id="uploadSlidePrevious" type="button" disabled>← Previous</button>
+     <span class="upload-slide-counter" id="uploadSlideCounter" aria-live="polite">Slide 1 of 8</span>
+     <button class="btn" id="uploadSlideNext" type="button">Next slide →</button>
+     <span class="upload-key-hint">Tip: You can also use the ← and → arrow keys while this presentation is in view.</span>
+    </div>
+   </div>
+   <div class="callout"><b>Teacher's reminder:</b> The pictures above reuse the external image sources already used in this lesson. Some illustrations are reference photographs rather than exact screenshots of every Arduino IDE version, so menu positions and appearance may vary slightly.</div>
+
+  </section>
+
+  <section class="section" id="demo">
+   <h2>7. Interactive Smart Dustbin Demonstration</h2>
+   <p>Move the slider to change how close the hand is. This is a classroom simulation, not a live connection to a physical Arduino.</p>
+   <div class="demo">
+    <div class="bin-stage"><div class="sensor-dot" title="Ultrasonic sensor"></div><div class="bin" id="demoBin"><div class="lid"></div></div></div>
+    <div>
+     <label for="distanceSlider"><b>Hand distance: <span id="distanceValue">35</span> cm</b></label>
+     <input class="range" id="distanceSlider" type="range" min="2" max="60" value="35">
+     <p id="demoMessage" class="callout" aria-live="polite">The hand is far away. The lid stays closed.</p>
+     <button class="btn" id="demoReset" type="button">Reset demonstration</button>
+    </div>
+   </div>
+  </section>
+
+  <section class="section" id="assessment">
+   <h2>8. Student Knowledge Assessment</h2>
+   <p>This 15-item quiz checks what you learned. Your teacher will provide the assessment access code when it is time to take the quiz.</p>
+   <div class="callout"><b>Important:</b> Do not begin the assessment until your teacher gives the signal and shares the access code. Each student should submit their own answers.</div>
+   <div class="field-grid">
+    <div class="field"><label for="studentName">Student full name</label><input id="studentName" autocomplete="name" placeholder="Enter your full name"></div>
+    <div class="field"><label for="studentSection">Grade and section</label><input id="studentSection" placeholder="Example: Grade 8 - Section A"></div>
+    <div class="field"><label for="accessCode">Teacher's access code</label><input id="accessCode" type="password" placeholder="Enter the code provided by your teacher"></div>
+    <div class="field"><label for="assessmentDate">Assessment date</label><input id="assessmentDate" type="date"></div>
+   </div>
+   <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px">
+    <button class="btn" id="unlockBtn" type="button">Unlock assessment</button>
+    <button class="btn secondary" id="lockBtn" type="button">Lock assessment</button>
+   </div>
+   <div class="status" id="accessStatus" role="status" aria-live="polite">🔒 Assessment is locked. Wait for your teacher's signal and access code.</div>
+   <div id="quizArea" hidden>
+    <div class="progress"><span id="quizProgress"></span></div>
+    <p class="small muted" id="progressText">0 of 15 questions answered</p>
+    <form id="quizForm">
+     <div id="questions"></div>
+     <button class="btn" id="submitQuiz" type="submit">Submit assessment</button>
+    </form>
+    <div id="result" class="status" hidden aria-live="polite"></div>
+   </div>
+  </section>
+
+
+   <!-- Teacher answer key: this separate panel remains hidden until the teacher enters its access code. -->
+   <section class="section" id="teacher-answer-key">
+    <h2>🔐 Teacher Answer Key — 15-Item Assessment</h2>
+    <p class="muted">For teacher use only. Enter the answer-key access code to reveal the correct answers and explanations for all 15 assessment questions.</p>
+    <div class="answer-key-controls">
+     <label for="answerKeyAccessCode"><b>Answer-key access code</b></label>
+     <input id="answerKeyAccessCode" type="password" autocomplete="off" placeholder="Enter teacher answer-key code" aria-describedby="answerKeyStatus">
+     <button class="btn" id="unlockAnswerKeyBtn" type="button">Unlock answer key</button>
+     <button class="btn secondary" id="lockAnswerKeyBtn" type="button" hidden>Hide answer key</button>
+    </div>
+    <div class="status" id="answerKeyStatus" role="status" aria-live="polite">🔒 Answer key is hidden.</div>
+    <div class="answer-key-content" id="answerKeyContent" hidden>
+     <p class="small muted">Answers follow the original assessment question order. The student quiz may display questions in a randomized order.</p>
+     <div class="answer-key-list" id="answerKeyList"></div>
+    </div>
+   </section>
+   <!-- Teacher guide access gate. Original guide content below is preserved unchanged. -->
+   <section class="section" id="teacher-guide-access" aria-label="Teacher guide access">
+    <h2>🔒 Teacher Guide — Restricted Access</h2>
+    <p class="muted">The Google Sheets teacher guide is hidden. Enter the teacher guide access code to view its complete instructions.</p>
+    <div class="teacher-guide-access-controls">
+     <label for="teacherGuideAccessCode"><b>Teacher guide access code</b></label>
+     <input id="teacherGuideAccessCode" type="password" autocomplete="off" placeholder="Enter teacher guide code" aria-describedby="teacherGuideAccessStatus">
+     <button class="btn" id="unlockTeacherGuideBtn" type="button">Unlock teacher guide</button>
+     <button class="btn secondary" id="lockTeacherGuideBtn" type="button" hidden>Hide teacher guide</button>
+    </div>
+    <div class="status" id="teacherGuideAccessStatus" role="status" aria-live="polite">🔒 Teacher guide is locked.</div>
+   </section>
+   <section class="section" id="teacher-guide" hidden>
+   <h2>9. Teacher Guide: Synchronize Assessment Results to Google Sheets</h2>
+   <p>Follow these steps to create a Google Sheet that collects each student's name, section, score, date, and selected answers.</p>
+   <h3>Part A — Create the Google Sheet</h3>
+   <ol>
+    <li>Sign in to the Google account that will own the assessment records.</li>
+    <li>Open <a href="https://sheets.google.com" target="_blank" rel="noopener">Google Sheets</a> and create a blank spreadsheet.</li>
+    <li>Give it a title, such as <b>Arduino Smart Dustbin Assessment Results</b>.</li>
+    <li>Choose <b>Extensions → Apps Script</b>.</li>
+   </ol>
+   <h3>Part B — Add the Apps Script</h3>
+   <p>Delete the sample code in the Apps Script editor and paste the following code. Change the spreadsheet ID only if you are using a different spreadsheet.</p>
+   <div class="code-wrap">
+    <button class="btn secondary copy" type="button" onclick="copyScript()">Copy Apps Script</button>
+<pre id="appsScriptCode"><code>const SHEET_NAME = "Responses";
+
+function doPost(e) {
   try {
-    if (!e || !e.postData || !e.postData.contents) {
-      return createJsonResponse({ status: "error", message: "Empty submission payload." });
-    }
-
     const data = JSON.parse(e.postData.contents);
-    const ss = SpreadsheetApp.getActiveSpreadsheet();
 
-    // Route request based on payload type
-    if (data.type === "ASSESSMENT") {
-      return processAssessmentSubmission(ss, data);
-    } else if (data.type === "DONATION") {
-      return processDonationRecord(ss, data);
-    } else {
-      return createJsonResponse({ status: "error", message: "Unknown payload type." });
+    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    let sheet = ss.getSheetByName(SHEET_NAME);
+
+    if (!sheet) {
+      sheet = ss.insertSheet(SHEET_NAME);
     }
+
+    if (sheet.getLastRow() === 0) {
+      sheet.appendRow([
+        "Timestamp",
+        "Student Name",
+        "Grade and Section",
+        "Assessment Date",
+        "Score",
+        "Total Items",
+        "Answers (JSON)"
+      ]);
+    }
+
+    // Basic server-side validation
+    if (!data.name || !data.section || !Array.isArray(data.answers)) {
+      throw new Error("Missing required student or answer information.");
+    }
+
+    sheet.appendRow([
+      new Date(),
+      String(data.name).slice(0, 120),
+      String(data.section).slice(0, 80),
+      String(data.assessmentDate || ""),
+      Number(data.score) || 0,
+      Number(data.total) || 15,
+      JSON.stringify(data.answers)
+    ]);
+
+    return ContentService
+      .createTextOutput(JSON.stringify({ success: true }))
+      .setMimeType(ContentService.MimeType.JSON);
 
   } catch (error) {
-    return createJsonResponse({ status: "error", message: error.toString() });
-  } finally {
-    lock.releaseLock();
+    return ContentService
+      .createTextOutput(JSON.stringify({
+        success: false,
+        message: error.message
+      }))
+      .setMimeType(ContentService.MimeType.JSON);
   }
-}
+}</code></pre>
+   </div>
+   <h3>Part C — Deploy the Apps Script as a Web App</h3>
+   <ol>
+    <li>Click <b>Deploy → New deployment</b>.</li>
+    <li>Click the gear icon and choose <b>Web app</b>.</li>
+    <li>For <b>Execute as</b>, select <b>Me</b>.</li>
+    <li>For <b>Who has access</b>, select the access option permitted by your school's Google Workspace and privacy rules. If using a public-access option, understand that anyone who obtains the URL may send data to the sheet.</li>
+    <li>Click <b>Deploy</b> and authorize the requested permissions.</li>
+    <li>Copy the Web App URL ending in <code>/exec</code>.</li>
+   </ol>
+   <h3>Part D — Connect the Web App to this lesson page</h3>
+   <ol>
+    <li>Return to this HTML file in a text editor.</li>
+    <li>Find <code>const GOOGLE_SCRIPT_URL = "";</code> near the bottom of the JavaScript.</li>
+    <li>Paste your Apps Script Web App URL between the quotation marks.</li>
+    <li>Save the HTML file, then upload or host the updated file again.</li>
+    <li>Submit one test assessment and check whether a new row appears in the <b>Responses</b> tab.</li>
+   </ol>
+   <div class="field">
+    <label for="scriptUrlInput">Optional: paste your Apps Script URL here to test the connection setting</label>
+    <input id="scriptUrlInput" type="url" placeholder="https://script.google.com/macros/s/...../exec">
+    <button class="btn secondary" id="saveUrlBtn" type="button" style="margin-top:8px;align-self:flex-start">Save URL in this browser</button>
+   </div>
+   <div class="callout"><b>Important technical note:</b> This page sends the result using a browser-compatible no-cors request. The browser cannot read the Apps Script response, so the page can report that the request was sent, but it cannot prove that the row was saved. Always verify the test row in Google Sheets. If the URL or deployment changes, update the URL in the HTML or save the new URL in the browser.</div>
+   <h3>Privacy and assessment security</h3>
+   <ul>
+    <li>Collect only the student information needed for class assessment.</li>
+    <li>Limit access to the spreadsheet to authorized school personnel.</li>
+    <li>Follow your school's data privacy and records-retention policies.</li>
+    <li>The access code in a standalone HTML file is a classroom gate, not strong security. A technically skilled student can inspect the source code and find it. For stronger control, use a teacher-controlled server-side check or a private learning platform.</li>
+    <li>The sample Apps Script accepts incoming submissions and does not independently verify the quiz score or access code. Do not treat the sheet as tamper-proof exam evidence.</li>
+   </ul>
+  </section>
 
-/**
- * Processes and appends assessment records with duplicate checking.
- */
-function processAssessmentSubmission(ss, data) {
-  let sheet = ss.getSheetByName(TAB_ASSESSMENT);
-  if (!sheet) {
-    sheet = initializeAssessmentSheet(ss);
-  }
+  <section class="section">
+   <h2>🖼️ Image Sources and Credits</h2>
+   <p>The pictures in this lesson are loaded from external image links. They are not embedded or stored inside this HTML file, helping keep the webpage file smaller. An internet connection is required to display online images.</p>
+   <ul class="small">
+    <li>Arduino Uno image: <a href="https://commons.wikimedia.org/wiki/File:Arduino_Uno_-_R3.jpg" target="_blank" rel="noopener">Wikimedia Commons – Arduino Uno R3</a>.</li>
+    <li>HC-SR04 image: <a href="https://commons.wikimedia.org/wiki/File:HC_SR04_Ultrasonic_Module.jpg" target="_blank" rel="noopener">Wikimedia Commons – HC-SR04 Ultrasonic Module</a>.</li>
+    <li>SG90 servo image: <a href="https://commons.wikimedia.org/wiki/File:Tower_Pro_SG90_micro_servo_motor.jpg" target="_blank" rel="noopener">Wikimedia Commons – Tower Pro SG90 Micro Servo Motor</a>.</li>
+    <li>Smart Dustbin wiring reference: <a href="https://github.com/sindgisrishtis/Smart-Dustbin-IoT" target="_blank" rel="noopener">Smart-Dustbin-IoT project repository</a>.</li>
+   </ul>
+   <p class="image-credit">Some external images are hosted by Wikimedia Commons, GitHub, Arduino documentation, or Unsplash. Their availability and loading speed depend on those providers.</p>
+  </section>
 
-  // Idempotency Check: Prevent duplicate Submission IDs
-  const submissionId = data.submissionId;
-  const existingIds = sheet.getRange(2, 2, Math.max(sheet.getLastRow() - 1, 1), 1).getValues().flat();
-  
-  if (existingIds.indexOf(submissionId) !== -1) {
-    return createJsonResponse({ 
-      status: "success", 
-      message: "Submission already recorded previously (Duplicate request ignored)." 
-    });
-  }
+  <section class="section">
+   <h2>🌟 Lesson Takeaway</h2>
+   <p>Arduino projects turn ideas into actions. In our Smart Dustbin, the sensor detects a nearby hand, Arduino processes the distance, and the servo motor moves the lid.</p>
+   <div class="callout"><b>Remember:</b> INPUT → PROCESS → OUTPUT. You do not have to be an expert programmer to begin inventing. Start with a simple idea, learn the parts, connect them safely, write instructions, and test your project.</div>
+  </section>
+ </main>
+</div>
+<footer class="footer">Arduino Learning Lab • Smart Dustbin Beginner Lesson<br><span class="small">Learn • Build • Test • Improve</span></footer>
 
-  // Append new assessment record
-  const timestamp = new Date();
-  sheet.appendRow([
-    timestamp,
-    submissionId,
-    data.fullName,
-    data.gradeLevel,
-    data.section,
-    "Testing Electronic Components Knowledge Test",
-    data.totalItems,
-    data.correctAnswers,
-    data.incorrectAnswers,
-    data.score,
-    data.percentage,
-    "RECORDED"
-  ]);
 
-  return createJsonResponse({ status: "success", message: "Assessment recorded successfully." });
-}
+<!-- Assessment completion modal: shown only after all questions have been submitted. -->
+<div class="submission-modal-backdrop" id="submissionModal" hidden>
+ <div class="submission-modal-card" role="dialog" aria-modal="true" aria-labelledby="submissionModalTitle" aria-describedby="submissionModalMessage" tabindex="-1">
+  <div class="submission-modal-icon" aria-hidden="true">✓</div>
+  <h2 id="submissionModalTitle">Assessment Submitted Successfully!</h2>
+  <p id="submissionModalMessage">Your assessment has been completed and submitted on this page.</p>
+  <p class="status" id="submissionModalSyncStatus" role="status"></p>
+  <button class="btn" id="closeSubmissionModal" type="button">OK, Close</button>
+ </div>
+</div>
 
-/**
- * Processes and appends donation records.
- */
-function processDonationRecord(ss, data) {
-  let sheet = ss.getSheetByName(TAB_DONATION);
-  if (!sheet) {
-    sheet = initializeDonationSheet(ss);
-  }
 
-  const timestamp = new Date();
-  sheet.appendRow([
-    timestamp,
-    data.donationId,
-    data.donorName,
-    data.amount,
-    data.currency || "PHP",
-    "SUBMITTED"
-  ]);
+<!-- GCash donation modal: records donor-declared information, not verified payment receipts. -->
+<div class="donation-backdrop" id="donationBackdrop" hidden>
+ <section class="donation-dialog" role="dialog" aria-modal="true" aria-labelledby="donationTitle" aria-describedby="donationDescription" tabindex="-1" id="donationDialog">
+  <div class="donation-head">
+   <div><h2 id="donationTitle">💙 Support This Educational Website</h2><p id="donationDescription" class="muted">Your voluntary GCash donation helps maintain and improve this free educational resource.</p></div>
+   <button type="button" class="donation-close" id="donationCloseBtn" aria-label="Close donation window">×</button>
+  </div>
+  <div class="callout">
+   <strong>Send your donation using the GCash app:</strong>
+   <div class="donation-number" id="donationGcashNumber">0968-7042-059</div>
+   <button type="button" class="btn secondary" id="donationCopyBtn">📋 Copy GCash number</button>
+   <p class="small">Please check the recipient details in GCash before confirming your transfer. This webpage does not process GCash payments.</p>
+  </div>
+  <form id="donationForm">
+   <h3>Donor Information</h3>
+   <p class="donation-notice">After making your transfer in GCash, you may record your contribution below. Recording it does not verify the transfer.</p>
+   <div class="field"><label for="donationDonorName">Donor's name *</label><input id="donationDonorName" name="donorName" maxlength="160" autocomplete="name" required placeholder="Enter your name"></div>
+   <div class="field-grid">
+    <div class="field"><label for="donationDonorType">Donor type *</label><select id="donationDonorType" name="donorType" required><option value="Individual">Individual</option><option value="Group">Group</option></select></div>
+    <div class="field"><label for="donationCountry">Country *</label><input id="donationCountry" name="country" maxlength="100" value="Philippines" required></div>
+   </div>
+   <div class="field" id="donationOrganizationField" hidden><label for="donationOrganization">Organization / Group name *</label><input id="donationOrganization" name="donorOrganization" maxlength="200" placeholder="Organization or group name"></div>
+   <div class="field"><label for="donationAmount">Donation amount (PHP) *</label><input id="donationAmount" name="amount" type="number" min="0.01" max="100000000" step="0.01" inputmode="decimal" required placeholder="e.g. 100.00"></div>
+   <div class="donation-actions"><button class="btn" type="submit" id="donationSubmitBtn">Save Donor Record</button><button class="btn secondary" type="button" id="donationCancelBtn">Cancel</button></div>
+   <p class="status" id="donationStatus" role="status" aria-live="polite">No donor record has been sent yet.</p>
+   <p class="donation-notice">Your name, donor type, organization (if applicable), country, amount, and source will be sent to the configured Google Apps Script endpoint. Only submit information you consent to share.</p>
+  </form>
+ </section>
+</div>
 
-  return createJsonResponse({ status: "success", message: "Donation record logged." });
-}
-
-/**
- * Initializes Assessment Worksheet structure automatically.
- */
-function initializeAssessmentSheet(ss) {
-  const sheet = ss.insertSheet(TAB_ASSESSMENT);
-  const headers = [
-    "Timestamp", "Submission ID", "Full Name", "Grade Level", "Section",
-    "Assessment Name", "Total Items", "Correct Answers", "Incorrect Answers",
-    "Score", "Percentage", "Status"
-  ];
-  sheet.getRange(1, 1, 1, headers.length).setValues([headers]).setFontWeight("bold").setBackground("#f3f4f6");
-  sheet.setFrozenRows(1);
-  return sheet;
-}
-
-/**
- * Initializes Donation Worksheet structure automatically.
- */
-function initializeDonationSheet(ss) {
-  const sheet = ss.insertSheet(TAB_DONATION);
-  const headers = ["Timestamp", "Donation ID", "Donor Name", "Amount (PHP)", "Currency", "Status"];
-  sheet.getRange(1, 1, 1, headers.length).setValues([headers]).setFontWeight("bold").setBackground("#f3f4f6");
-  sheet.setFrozenRows(1);
-  return sheet;
-}
-
-/**
- * Helper to construct JSON response output.
- */
-function createJsonResponse(responseObject) {
-  return ContentService.createTextOutput(JSON.stringify(responseObject))
-    .setMimeType(ContentService.MimeType.JSON);
-}
-
-/**
- * Health Check Endpoint (doGet)
- */
-function doGet(e) {
-  return ContentService.createTextOutput("Testing Electronic Components Web App Backend is Active.");
-}
-                    </pre>
-
-                </div>
-            </section>
-
-        </main>
-    </div>
-
-    <!-- FOOTER -->
-    <footer>
-        Powered by: Desk Bhuddy IT solutions made it just for you © 2026.
-    </footer>
-
-    <!-- TEACHER LOGIN MODAL -->
-    <div id="teacherModal" class="modal-overlay">
-        <div class="modal">
-            <h3>Teacher Authorization</h3>
-            <p style="margin: 0.5rem 0 1rem 0; font-size:0.9rem;">Enter an authorized passkey (e.g. Administrator or Key Access):</p>
-            <div style="margin-bottom:1rem;">
-                <input type="password" id="teacherPassInput" placeholder="Enter Teacher Passkey" style="width:100%;">
-                <div style="margin-top:0.5rem; display:flex; align-items:center; gap:0.5rem; font-size:0.85rem;">
-                    <input type="checkbox" id="showPassCheck">
-                    <label for="showPassCheck">Show Passkey</label>
-                </div>
-            </div>
-            <div id="teacherPassErr" class="alert alert-error" style="display:none;"></div>
-            <div style="display:flex; justify-content:flex-end; gap:0.5rem; flex-wrap:wrap;">
-                <button id="closeTeacherModalBtn" class="btn btn-secondary">Cancel</button>
-                <button id="loginTeacherBtn" class="btn btn-primary">Login</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- SUBMISSION CONFIRMATION MODAL -->
-    <div id="confirmModal" class="modal-overlay">
-        <div class="modal text-center">
-            <h3 style="color:var(--success);">Submission Successful!</h3>
-            <p style="margin:1rem 0;">Your assessment has been successfully submitted and recorded.</p>
-            <div id="confirmDetails" style="text-align:left; background:var(--bg-tertiary); padding:1rem; border-radius:6px; font-size:0.9rem; margin-bottom:1.5rem; word-break:break-word;"></div>
-            <button id="closeConfirmModalBtn" class="btn btn-primary" style="width:100%;">Close</button>
-        </div>
-    </div>
-
-    <!-- DONATION / SUPPORT PROJECT MODAL -->
-    <div id="donationModal" class="modal-overlay">
-        <div class="modal text-center">
-            <button id="closeDonationModalBtn" class="btn btn-secondary" style="position:absolute; top:12px; right:12px; padding:0.2rem 0.6rem;">✕</button>
-            <h2 style="color:var(--primary); margin-bottom:0.5rem;">Support Us</h2>
-            <p style="margin:0.5rem 0 1.2rem 0; color:var(--text-secondary); font-size:0.9rem;">
-                Your voluntary contributions support free software maintenance and open educational resources. Donations are completely optional and do not impact grades or academic records.
-            </p>
-            
-            <div style="background-color:var(--primary-light); padding:1rem; border-radius:8px; display:inline-block; margin-bottom:1.2rem; width:100%;">
-                <span style="font-size:0.85rem; font-weight:600; color:var(--primary);">GCash Account Number:</span><br>
-                <span id="gcashNum" style="font-size:clamp(1.2rem, 4vw, 1.6rem); font-weight:800; color:var(--primary);">0968-704-2059</span><br>
-                <button id="copyGcashBtn" class="btn btn-secondary" style="margin-top:0.5rem; padding:0.25rem 0.75rem; font-size:0.85rem;">Copy GCash Number</button>
-            </div>
-
-            <form id="donationForm" style="text-align:left;">
-                <div style="margin-bottom:0.8rem;">
-                    <label for="donorName" style="font-size:0.85rem;">Donor Name (Optional / Leave blank for Anonymous):</label>
-                    <input type="text" id="donorName" placeholder="e.g., Jane Doe" style="width:100%;">
-                </div>
-                <div style="margin-bottom:1rem;">
-                    <label for="donorAmount" style="font-size:0.85rem;">Donation Amount (PHP): *</label>
-                    <input type="number" id="donorAmount" min="1" step="any" placeholder="e.g., 100" required style="width:100%;">
-                </div>
-                <button type="submit" id="submitDonationBtn" class="btn btn-primary" style="width:100%;">Record Donation</button>
-            </form>
-            <div id="donationStatus" style="margin-top:1rem;"></div>
-        </div>
-    </div>
-
-    <!-- JAVASCRIPT APPLICATION LOGIC -->
 <!--
-    <script>
-    </script>
+<script>
+
+</script>
 -->
-<script src="script.js" defer></script>
 </body>
+<script src="script.js" defer></script>
 </html>
